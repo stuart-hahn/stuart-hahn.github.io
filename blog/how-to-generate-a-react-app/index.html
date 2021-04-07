@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	
+
+	<title>How to Generate a React App</title>
+
+	
+	<link rel="stylesheet" href="https://stuart-hahn.github.io/css/colors-dark.min.917d9395f6d23907a6111292c67bec46700e81ef4e3a3e3b4e6a091835f90113.css">
+
+	
+</head>
+
+<body>
+	<header id="header">
+		<h1><a href="https://stuart-hahn.github.io/">Hire Stuart</a></h1>
+		<p>What&#39;s the worst that could happen?</p>
+	</header>
+
+	<div id="page">
+		<div id="sidebar">
+			<nav>
+	
+		<ul class="nav">
+			
+				<li><a href="https://github.com/stuart-hahn/"><span>Github</span></a></li>
+			
+				<li><a href="https://twitter.com/stuarthahn"><span>Twitter</span></a></li>
+			
+				<li><a href="https://www.youtube.com/channel/UCAScs3bE-RCtJAv5B_FZQ4w"><span>YouTube</span></a></li>
+			
+		</ul>
+	
+		<ul class="nav">
+			
+				<li><a href="/index.xml"><span>RSS Feed</span></a></li>
+			
+		</ul>
+	
+</nav>
+
+		</div>
+
+		<div id="content">
+			
+	<article class="post">
+		<h1><a href="https://stuart-hahn.github.io/blog/how-to-generate-a-react-app/">How to Generate a React App</a> </h1>
+
+		<div class="post-content"><p>This is really simple. Make sure that you have <code>node</code> installed, and that it&rsquo;s a modern enough version of <code>node</code> to include <code>npx</code>.</p>
+<p>Then, simply type the command <code>npx create-react-app my-new-app</code> into the terminal. This will generate a new React app with the name you provided.</p>
+<p>In this application I&rsquo;m going to do a deep dive into what JSX is and how it works inside of a React app, so I&rsquo;m going to call it &ldquo;working-with-jsx&rdquo;. I&rsquo;ll generate the app with the following command:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">npx create-react-app working-with-jsx
+</code></pre></div><p>This command will generate a new directory called &lsquo;/working-with-jsx&rsquo; that includes all of the necessary dependencies and boilerplate to get an application up and running.</p>
+<p>To start the application, cd into the directory and then type <code>npm start</code>.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#b58900">cd</span> working-with-jsx
+npm start
+</code></pre></div><p>Launching the program will open a new tab in your internet browser welcoming you to React. Congratulations! Now let&rsquo;s head into the code and break stuff.</p>
+<p>Open the project directory in your code editor of choice. I&rsquo;m using Visual Studio Code, but it doesn&rsquo;t really matter. Use what you&rsquo;re comfortable with.</p>
+<p>Inside of the directory you&rsquo;ll see various files and folders. Some of these are essential for the application to run as expected, but &ldquo;create-react-app&rdquo; also comes with a lot of boilerplate code.</p>
+<p>Let&rsquo;s wipe out this non-essential boilerplate code and start from scratch.</p>
+<p>Inside of the <code>/src</code> folder, erase EVERYTHING.</p>
+<p>Inside of that now-empty <code>/src</code> folder, create a new file called <code>index.js</code> to serve as our starting point.</p>
+<p>This file needs to import React and ReactDOM, and to do that we can simply type the following at the top of the file:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#268bd2">import</span> React from <span style="color:#2aa198">&#39;react&#39;</span>
+<span style="color:#268bd2">import</span> ReactDOM from <span style="color:#2aa198">&#39;react-dom&#39;</span>
+</code></pre></div><p>We&rsquo;re going to use ReactDOM to render our application inside of the <code>root</code> div in our HTML. This div already exists in our HTML thanks to the magic of React, but it&rsquo;s our job to decide what to render in there.</p>
+<p>Let&rsquo;s create a component called App to get rendered to the page. Inside of <code>/src</code>, create a new folder called <code>/components</code>, and then create a file inside of that called <code>App.js</code>.</p>
+<p>This file will be a functional component that returns some JSX.</p>
+<h2 id="what-is-jsx">What is JSX?</h2>
+<p>You might be thinking to yourself, &ldquo;What the heck is JSX?!?&rdquo;</p>
+<p>Well, I&rsquo;m glad you asked. Because that&rsquo;s what this whole application and tutorial blog post is about.</p>
+<p>JSX is a syntax that allows us to write HTML elements and put them into the DOM without having to use <code>createElement()</code> or <code>appendChild()</code> methods. It looks and behaves like HTML, but uses vanilla JavaScript under the hood to show things on the DOM.</p>
+<p>This is made possible thanks to Babel, which is a dependency of React and the main reason we have to import React at the top of all of our components.</p>
+<p>Babel is a JavaScript compiler that converts JavaScript that we write, including JSX, into a backwards compatible version that can work with a wider variety of browsers and environments.</p>
+<p>JSX that looks like this&hellip;</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx">&lt;<span style="color:#268bd2">h1</span>&gt;App&lt;/<span style="color:#268bd2">h1</span>&gt;
+</code></pre></div><p>gets translated behind the scenes into this&hellip;</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#2aa198">&#34;use strict&#34;</span>;
+
+<span style="color:#586e75">/*#__PURE__*/</span>
+React.createElement(<span style="color:#2aa198">&#34;h1&#34;</span>, <span style="color:#cb4b16">null</span>, <span style="color:#2aa198">&#34;App&#34;</span>);
+</code></pre></div><p>It&rsquo;s technically not required to use JSX in your React app. You could write your entire application in vanilla JavaScript, but that would be unnecessarily complicating your life.</p>
+<p>JSX is easy to use, and we&rsquo;ll dive into it much deeper as we build out this application.</p>
+<h2 id="creating-the-app-component">Creating the App component</h2>
+<p>In the <code>App.js</code> file, the first thing that we need to do is import React. This gives us access to Babel and allows us to write JSX.</p>
+<p>Then, we define an arrow function called App. It doesn&rsquo;t have to be an arrow function &ndash; it could be a regular function or even a JavaScript class &ndash; but we&rsquo;re going to use an arrow function because the syntax and functionality work well for our current purposes.</p>
+<p>Our App function will return some JSX, and that JSX will get compiled and rendered to the DOM wherever this component gets placed.</p>
+<p>Finally, we can export the function and call it elsewhere in our app.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#268bd2">import</span> React from <span style="color:#2aa198">&#39;react&#39;</span>
+
+<span style="color:#268bd2">const</span> App <span style="color:#719e07">=</span> () =&gt; {
+	<span style="color:#719e07">return</span> (
+		&lt;<span style="color:#268bd2">div</span>&gt;
+			&lt;<span style="color:#268bd2">h1</span>&gt;App&lt;/<span style="color:#268bd2">h1</span>&gt;
+		&lt;/<span style="color:#268bd2">div</span>&gt;
+	)
+}
+
+<span style="color:#268bd2">export</span> <span style="color:#719e07">default</span> App
+</code></pre></div><p>We&rsquo;ve got our first component built and now we&rsquo;re ready to render it to the page!</p>
+<p>Back in the <code>index.js</code> file, let&rsquo;s finish getting everything set up. First things first, let&rsquo;s import that App component that we just built.</p>
+<p>Since this is a file and not a package in our node_modules, we can import it by referencing a path to it&rsquo;s location. For us, it looks like this:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#268bd2">import</span> App from <span style="color:#2aa198">&#39;./components/App&#39;</span>
+</code></pre></div><p>Remember how we imported <code>ReactDOM</code> from the <code>react-dom</code> library? It&rsquo;s time to put that module to use.</p>
+<p>In React, the ReactDOM is only used to &ldquo;glue&rdquo; our React application to the DOM. To do that, we use a built-in method called <code>render()</code> and pass it two arguments.</p>
+<p>The first argument is the component that we want to render to the page, and the second argument is the DOM node that we want to put our application in.</p>
+<p>Here it is in all its glory:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx">ReactDOM.render(&lt;<span style="color:#268bd2">App</span> /&gt;, <span style="color:#b58900">document</span>.getElementById(<span style="color:#2aa198">&#34;root&#34;</span>))
+</code></pre></div><p>In this instance, we&rsquo;re passing our App component, which looks like <code>&lt;App /&gt;</code> as the first argument, and then we&rsquo;re querying the DOM to find an element with the ID of &lsquo;root&rsquo;.</p>
+<p>If we head into the <code>/public</code> folder and click on <code>index.html</code> we can see that our html document already has a div inside the body with the ID of &lsquo;root&rsquo;. This is where our entire App will get rendered.</p>
+<p>Save everything and, if it didn&rsquo;t automatically update, refresh your browser with the React app running. You should see &ldquo;App&rdquo; displayed on the page!</p>
+<p>Congratulations. This is the equivalent of a &ldquo;Hello World&rdquo; application. We&rsquo;ve figured out how to create a React app, remove the boilerplate, write a functional component, and render it to the page. That&rsquo;s a lot to be proud of.</p>
+</div>
+
+		<p class="meta">Posted on <span class="postdate">06. April 2021</span></p>
+	</article>
+
+		</div>
+
+		<footer id="footer">
+			<p class="copyright">
+				
+				© Stuart Hahn 2021
+				
+			</p>
+		</footer>
+	</div>
+
+	
+</body>
+
+</html>

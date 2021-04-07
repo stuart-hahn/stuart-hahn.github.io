@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Blogs on Hire Stuart</title>
+    <link>https://stuart-hahn.github.io/blog/</link>
+    <description>Recent content in Blogs on Hire Stuart</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© Stuart Hahn {year}</copyright>
+    <lastBuildDate>Tue, 06 Apr 2021 20:15:38 -0400</lastBuildDate><atom:link href="https://stuart-hahn.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>React Props: A Primer</title>
+      <link>https://stuart-hahn.github.io/blog/react-props-a-primer/</link>
+      <pubDate>Tue, 06 Apr 2021 20:15:38 -0400</pubDate>
+      
+      <guid>https://stuart-hahn.github.io/blog/react-props-a-primer/</guid>
+      <description>In React, components make it really easy to duplicate parts of a website with slight variations.
+For example, say you wanted to have a comment section underneath your blog posts. Each comment would look very similar, with an avatar, a date, a text block, and maybe even some like and dislike buttons.</description>
+    </item>
+    
+    <item>
+      <title>JSX: A Few Notes</title>
+      <link>https://stuart-hahn.github.io/blog/jsx-a-few-notes/</link>
+      <pubDate>Tue, 06 Apr 2021 19:18:45 -0400</pubDate>
+      
+      <guid>https://stuart-hahn.github.io/blog/jsx-a-few-notes/</guid>
+      <description>JSX is getting translated into JavaScript, but it isn&amp;rsquo;t a one-to-one transtlation. There are a few syntactical notes to be aware of.
+Inline Styling
+In HTML, inline styling is done using the &amp;ldquo;style&amp;rdquo; attribute and giving it a string of CSS.</description>
+    </item>
+    
+    <item>
+      <title>How to Generate a React App</title>
+      <link>https://stuart-hahn.github.io/blog/how-to-generate-a-react-app/</link>
+      <pubDate>Tue, 06 Apr 2021 17:14:37 -0400</pubDate>
+      
+      <guid>https://stuart-hahn.github.io/blog/how-to-generate-a-react-app/</guid>
+      <description>This is really simple. Make sure that you have node installed, and that it&amp;rsquo;s a modern enough version of node to include npx.
+Then, simply type the command npx create-react-app my-new-app into the terminal.</description>
+    </item>
+    
+  </channel>
+</rss>

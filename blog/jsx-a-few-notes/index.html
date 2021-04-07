@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	
+
+	<title>JSX: A Few Notes</title>
+
+	
+	<link rel="stylesheet" href="https://stuart-hahn.github.io/css/colors-dark.min.917d9395f6d23907a6111292c67bec46700e81ef4e3a3e3b4e6a091835f90113.css">
+
+	
+</head>
+
+<body>
+	<header id="header">
+		<h1><a href="https://stuart-hahn.github.io/">Hire Stuart</a></h1>
+		<p>What&#39;s the worst that could happen?</p>
+	</header>
+
+	<div id="page">
+		<div id="sidebar">
+			<nav>
+	
+		<ul class="nav">
+			
+				<li><a href="https://github.com/stuart-hahn/"><span>Github</span></a></li>
+			
+				<li><a href="https://twitter.com/stuarthahn"><span>Twitter</span></a></li>
+			
+				<li><a href="https://www.youtube.com/channel/UCAScs3bE-RCtJAv5B_FZQ4w"><span>YouTube</span></a></li>
+			
+		</ul>
+	
+		<ul class="nav">
+			
+				<li><a href="/index.xml"><span>RSS Feed</span></a></li>
+			
+		</ul>
+	
+</nav>
+
+		</div>
+
+		<div id="content">
+			
+	<article class="post">
+		<h1><a href="https://stuart-hahn.github.io/blog/jsx-a-few-notes/">JSX: A Few Notes</a> </h1>
+
+		<div class="post-content"><p>JSX is getting translated into JavaScript, but it isn&rsquo;t a one-to-one transtlation. There are a few syntactical notes to be aware of.</p>
+<p><strong>Inline Styling</strong></p>
+<p>In HTML, inline styling is done using the &ldquo;style&rdquo; attribute and giving it a string of CSS.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#268bd2">div</span> style<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;color: white&#34;</span>&gt;This text will be white&lt;/<span style="color:#268bd2">div</span>&gt;
+</code></pre></div><p>In JSX, the style attribute expects an object with CSS key:value pairs. You can pass it to a div like this:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx">&lt;<span style="color:#268bd2">div</span> style<span style="color:#719e07">=</span>{{ color<span style="color:#719e07">:</span> <span style="color:#2aa198">&#39;white&#39;</span> }}&gt;This text will be white&lt;/<span style="color:#268bd2">div</span>&gt;
+</code></pre></div><blockquote>
+<p>Additional note: normal CSS uses dashes to separate names, but JSX requires camelCase instead. So a value like &ldquo;background-color&rdquo; in CSS becomes &ldquo;backgroundColor&rdquo; in JSX.</p>
+</blockquote>
+<p><strong>Using JavaScript variables inside of JSX</strong></p>
+<p>In JSX, you can execute JavaScript code by wrapping it in curly braces. This includes functionality like referencing variables and functions that were defined elsewhere in your code.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#586e75">// define the variable
+</span><span style="color:#586e75"></span><span style="color:#268bd2">const</span> buttonText <span style="color:#719e07">=</span> <span style="color:#2aa198">&#34;Click This Button&#34;</span>
+
+<span style="color:#586e75">// and then use it somewhere in the JSX
+</span><span style="color:#586e75">// by wrapping it in curly braces
+</span><span style="color:#586e75"></span>&lt;<span style="color:#268bd2">button</span>&gt;{buttonText}&lt;/<span style="color:#268bd2">button</span>&gt;
+</code></pre></div><p>There are also a few other keywords that will technically work (your app will still render) but will cause React to throw a warning into the console. An example of this is <code>for</code> &ndash; in React, <code>for</code> is replaced with <code>htmlFor</code> in order to avoid certain collisions that could potentially break your code.</p>
+<p>It&rsquo;s difficult to know every forbidden keyword, so just keep an eye on your console to watch for any potential errors as you&rsquo;re coding.</p>
+</div>
+
+		<p class="meta">Posted on <span class="postdate">06. April 2021</span></p>
+	</article>
+
+		</div>
+
+		<footer id="footer">
+			<p class="copyright">
+				
+				© Stuart Hahn 2021
+				
+			</p>
+		</footer>
+	</div>
+
+	
+</body>
+
+</html>

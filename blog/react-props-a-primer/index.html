@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	
+
+	<title>React Props: A Primer</title>
+
+	
+	<link rel="stylesheet" href="https://stuart-hahn.github.io/css/colors-dark.min.917d9395f6d23907a6111292c67bec46700e81ef4e3a3e3b4e6a091835f90113.css">
+
+	
+</head>
+
+<body>
+	<header id="header">
+		<h1><a href="https://stuart-hahn.github.io/">Hire Stuart</a></h1>
+		<p>What&#39;s the worst that could happen?</p>
+	</header>
+
+	<div id="page">
+		<div id="sidebar">
+			<nav>
+	
+		<ul class="nav">
+			
+				<li><a href="https://github.com/stuart-hahn/"><span>Github</span></a></li>
+			
+				<li><a href="https://twitter.com/stuarthahn"><span>Twitter</span></a></li>
+			
+				<li><a href="https://www.youtube.com/channel/UCAScs3bE-RCtJAv5B_FZQ4w"><span>YouTube</span></a></li>
+			
+		</ul>
+	
+		<ul class="nav">
+			
+				<li><a href="/index.xml"><span>RSS Feed</span></a></li>
+			
+		</ul>
+	
+</nav>
+
+		</div>
+
+		<div id="content">
+			
+	<article class="post">
+		<h1><a href="https://stuart-hahn.github.io/blog/react-props-a-primer/">React Props: A Primer</a> </h1>
+
+		<div class="post-content"><p>In React, components make it really easy to duplicate parts of a website with slight variations.</p>
+<p>For example, say you wanted to have a comment section underneath your blog posts. Each comment would look very similar, with an avatar, a date, a text block, and maybe even some like and dislike buttons.</p>
+<p>To hardcode all of that information in using regular HTML or JSX would quickly become extremely difficult to read and maintain.</p>
+<p>Luckily, components make it possible to turn a single comment into a reusable piece that dynamically fills itself with the correct data using something called <code>props</code>.</p>
+<h2 id="what-are-props">What are props?</h2>
+<p>React uses props as a way to pass data from a parent component to a child component. It is a one-way flow of information.</p>
+<p>The goal of the props system is to use data supplied by the parent to customize the look and behavior of the children.</p>
+<p>In our &ldquo;comment&rdquo; example from above, the parent might pass the users' names, comment text, and dates posted down as props to dynamically display each comment on the page.</p>
+<p>The Comment component would look the same each time, regardless of how many comments were shown, but each comment would have a dynamically passed name, text, and date coming from the parent.</p>
+<p>A <code>CommentDetail</code> component might be written in JSX like this:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx">&lt;<span style="color:#268bd2">CommentDetail</span> name<span style="color:#719e07">=</span>{name} date<span style="color:#719e07">=</span>{date} sentence<span style="color:#719e07">=</span>{sentence} avatar<span style="color:#719e07">=</span>{avatar} /&gt;
+</code></pre></div><p>This example uses four props: name, date, sentence, and avatar. That particular data would be accessed and displayed inside of the component.</p>
+<p>In the child component, the first argument received is an object that contains all of the props passed to it by the parent. It&rsquo;s convention to call this object &lsquo;props&rsquo;:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#268bd2">const</span> commentDetail <span style="color:#719e07">=</span> (props) =&gt; {}
+</code></pre></div><p>You can can then access props by using dot notation:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx">{props.author}
+</code></pre></div><p>Functions can be passed as props, too. You can then execute the function in the child component:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#586e75">// in the parent
+</span><span style="color:#586e75"></span><span style="color:#268bd2">const</span> theFunc <span style="color:#719e07">=</span> () =&gt; {
+	<span style="color:#719e07">return</span> &lt;<span style="color:#268bd2">h1</span>&gt;Hello, world.&lt;/<span style="color:#268bd2">h1</span>&gt;
+}
+&lt;<span style="color:#268bd2">CommentDetail</span> someFunction<span style="color:#719e07">=</span>{theFunc} /&gt;
+
+<span style="color:#586e75">// in the child
+</span><span style="color:#586e75"></span>&lt;<span style="color:#268bd2">div</span>&gt;{props.theFunc()}&lt;/<span style="color:#268bd2">div</span>&gt;
+</code></pre></div><h2 id="nesting-components">Nesting Components</h2>
+<p>One of the biggest aspects of React is the reusability and modularity of components. Not only can we stack components by reusing them an unlimited number of times, we can also nest components inside each other.</p>
+<p>This gives us the freedom to use components as lego pieces, mixing and matching them however we would like in order to build large, complex apps.</p>
+<p><strong>Here&rsquo;s an example:</strong></p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx">&lt;<span style="color:#268bd2">ApprovalCard</span>&gt;
+	&lt;<span style="color:#268bd2">CommentDetail</span> name<span style="color:#719e07">=</span>{name} date<span style="color:#719e07">=</span>{date} sentence<span style="color:#719e07">=</span>{sentence} avatar<span style="color:#719e07">=</span>{avatar} /&gt;
+&lt;/<span style="color:#268bd2">ApprovalCard</span>&gt;
+</code></pre></div><p>In this example, we&rsquo;ve stuck our CommentDetail component inside of another component called ApprovalCard.</p>
+<p>The ApprovalCard is getting receiving CommentDetail as a prop, and it can be accessed via <code>props.children</code>.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#586e75">// in ApprovalCard.js
+</span><span style="color:#586e75"></span>&lt;<span style="color:#268bd2">div</span> className<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;content&#34;</span>&gt;{props.children}&lt;/<span style="color:#268bd2">div</span>&gt;
+</code></pre></div><p>Since our ApprovalCard is receiving CommentDetail as a prop, the code above will render the entire CommentDetail component inside of the specified div.</p>
+<p>We could just as easily pass something else to ApprovalCard. Instead of a component, we could simply put plaintext or a header, or both:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx">&lt;<span style="color:#268bd2">ApprovalCard</span>&gt;
+	&lt;<span style="color:#268bd2">div</span>&gt;
+		&lt;<span style="color:#268bd2">h2</span>&gt;This will get rendered&lt;/<span style="color:#268bd2">h2</span>&gt;
+		And so will <span style="color:#719e07">this</span>.
+	&lt;/<span style="color:#268bd2">div</span>&gt;
+&lt;/<span style="color:#268bd2">ApprovalCard</span>&gt;
+</code></pre></div><p>In this case, instead of a separate component, ApprovalCard&rsquo;s <code>props.children</code> will be the div and its included content. It will still render to the page and display just fine.</p>
+</div>
+
+		<p class="meta">Posted on <span class="postdate">06. April 2021</span></p>
+	</article>
+
+		</div>
+
+		<footer id="footer">
+			<p class="copyright">
+				
+				© Stuart Hahn 2021
+				
+			</p>
+		</footer>
+	</div>
+
+	
+</body>
+
+</html>
