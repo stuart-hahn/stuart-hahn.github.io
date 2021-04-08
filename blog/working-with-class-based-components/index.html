@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	
+
+	<title>Working With Class Based Components</title>
+
+	
+	<link rel="stylesheet" href="https://stuart-hahn.github.io/css/colors-dark.min.917d9395f6d23907a6111292c67bec46700e81ef4e3a3e3b4e6a091835f90113.css">
+
+	
+</head>
+
+<body>
+	<header id="header">
+		<h1><a href="https://stuart-hahn.github.io/">Hire Stuart</a></h1>
+		<p>What&#39;s the worst that could happen?</p>
+	</header>
+
+	<div id="page">
+		<div id="sidebar">
+			<nav>
+	
+		<ul class="nav">
+			
+				<li><a href="https://github.com/stuart-hahn/"><span>Github</span></a></li>
+			
+		</ul>
+	
+		<ul class="nav">
+			
+				<li><a href="https://twitter.com/stuarthahn"><span>Twitter</span></a></li>
+			
+				<li><a href="https://www.youtube.com/channel/UCAScs3bE-RCtJAv5B_FZQ4w"><span>YouTube</span></a></li>
+			
+		</ul>
+	
+</nav>
+
+		</div>
+
+		<div id="content">
+			
+	<article class="post">
+		<h1><a href="https://stuart-hahn.github.io/blog/working-with-class-based-components/">Working With Class Based Components</a> </h1>
+
+		<div class="post-content"><blockquote>
+<p>Note: I built a little app to demonstrate how to work with class-based components. You can view the repository here: <a href="https://github.com/stuart-hahn/working-with-class-based-components">Github Repo</a></p>
+</blockquote>
+<p>React has evolved through the years, and as a result functional components are much more powerful than they used to be.</p>
+<p>In the past, functional components could only be used to produce JSX to render to the screen, and advanced functionality like lifecycle methods and state were limited to class-based components.</p>
+<p>Modern React makes much greater use of functional components and class-based components aren&rsquo;t as necessary, but it&rsquo;s still important to understand what they are and how to work with them.</p>
+<h2 id="what-is-a-class-based-component">What is a class-based component?</h2>
+<p>A class-based component is a React component extends functionality from a React class called Component.</p>
+<p>You can write a class based component like this:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#268bd2">import</span> React from <span style="color:#2aa198">&#39;react&#39;</span>
+
+<span style="color:#268bd2">class</span> App <span style="color:#268bd2">extends</span> React.Component {
+	render() {
+		<span style="color:#719e07">return</span> &lt;<span style="color:#268bd2">div</span>&gt;Some JSX&lt;/<span style="color:#268bd2">div</span>&gt;
+	}
+}
+
+<span style="color:#268bd2">export</span> <span style="color:#719e07">default</span> App
+</code></pre></div><p>They&rsquo;re very similar to functional components except they have direct access to &ldquo;state&rdquo; and &ldquo;lifecycle methods&rdquo;.</p>
+<p>&ldquo;State&rdquo; is a system that allows a component to keep track of certain data and change its behavior or appearance based on that data.</p>
+<p>&ldquo;Lifecycle methods&rdquo; allow a component to execute code at specific times, like when it first gets mounted or just before it is unmounted.</p>
+<p>Modern React has ways to allow functional components to do this same sort of thing, but for now let&rsquo;s stay focused on class-based components.</p>
+<p>One of the main reasons to use a class-based component is the easy management of the component&rsquo;s state.</p>
+<p>State is an object that contains data that can affect the look and behavior of a component, and class-based components make it easy to work with.</p>
+<p>You can set the initial state simply by defining a <code>state</code> object, like SO:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#268bd2">class</span> App <span style="color:#268bd2">extends</span> React.Component {
+
+	state <span style="color:#719e07">=</span> {
+		location<span style="color:#719e07">:</span> <span style="color:#2aa198">&#34;The Ozarks&#34;</span>
+	}
+
+	render() {
+		<span style="color:#719e07">return</span> &lt;<span style="color:#268bd2">h1</span>&gt;{<span style="color:#719e07">this</span>.state.location}&lt;/<span style="color:#268bd2">h1</span>&gt;
+	}
+}
+</code></pre></div><blockquote>
+<p>Quick Note: The above code is a modern syntax for initialing state, but it&rsquo;s not the only (or the original) way. For the sake of being thorough, I&rsquo;ve included the outdated <code>constructor</code> way below.</p>
+</blockquote>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#268bd2">class</span> App <span style="color:#268bd2">extends</span> React.Component {
+	constructor(props){
+		<span style="color:#268bd2">super</span>(props)
+		
+		<span style="color:#719e07">this</span>.state <span style="color:#719e07">=</span> {
+			location<span style="color:#719e07">:</span> <span style="color:#2aa198">&#34;The Ozarks&#34;</span>
+		}
+	}
+}
+</code></pre></div><h2 id="things-to-know-about-state">Things to Know About State</h2>
+<p>State is:</p>
+<ul>
+<li>Only usable with class components (but you can get around this limitation with hooks).</li>
+<li>An object that contains data relevant to a component. This object must be initialized when the component is created.</li>
+<li>Changing <code>state</code> on a component will cause that component to re-render immediately.</li>
+<li>NOT mutable. The only way to update state is using the <code>setState()</code> function.</li>
+</ul>
+<h2 id="lifecycle-methods">LifeCycle Methods</h2>
+<p>Another feature of class components is their ability to work with lifecycle methods. Lifecycle methods let us fine-tune exactly where some code gets executed in the &ldquo;life&rdquo; of our component.</p>
+<p>For example, we can use a lifecycle method called <code>componentDidMount()</code> to execute some code the first time our component gets &ldquo;mounted&rdquo; (rendered to the screen).</p>
+<p>There are a few lifecycle methods to learn and use, but three important ones to understand are:</p>
+<ol>
+<li><code>componentDidMount</code> - executes the first time a component is mounted in the DOM.</li>
+<li><code>componentDidUpdate</code> - executes every single time a component changes (like when state gets updated)</li>
+<li><code>componentWillUnmount</code> - executes right before a component gets removed from the screen. This is useful for cleanup to prevent memory leaks.</li>
+</ol>
+<p>Lifecycle Methods, if defined, will automatically execute at the specific time(s) they&rsquo;re supposed to.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx">componentDidMount() {
+	<span style="color:#586e75">// whatever is in here will automatically get executed
+</span><span style="color:#586e75"></span>	<span style="color:#586e75">// whenever this component is mounted
+</span><span style="color:#586e75"></span>}
+</code></pre></div><h2 id="conclusion">Conclusion</h2>
+<p>Class-based components aren&rsquo;t as important as they used to be due to improvements to functional components, but they do still provide a simple way to work with state and lifecycle methods in React.</p>
+<p>Modern React apps might get away with never using class components, but older codebases rely heavily on the features that only class components could provide.</p>
+<p>I wrote a little application using only class-based components. It uses the geolocation API to grab a user&rsquo;s latitude, and then uses the latitude to determine what season it is. Then, depending on the season, it will display a summer message or a winter message.</p>
+<p>You can view the app (and clone it and run it yourself) from the <a href="https://github.com/stuart-hahn/working-with-class-based-components">Github Repo</a>.</p>
+</div>
+
+		<p class="meta">Posted on <span class="postdate">08. April 2021</span></p>
+	</article>
+
+		</div>
+
+		<footer id="footer">
+			<p class="copyright">
+				
+				© Stuart Hahn 2021
+				
+			</p>
+		</footer>
+	</div>
+
+	
+</body>
+
+</html>

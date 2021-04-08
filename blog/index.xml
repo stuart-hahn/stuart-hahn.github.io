@@ -7,7 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Stuart Hahn {year}</copyright>
-    <lastBuildDate>Tue, 06 Apr 2021 20:15:38 -0400</lastBuildDate><atom:link href="https://stuart-hahn.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 08 Apr 2021 11:10:50 -0400</lastBuildDate><atom:link href="https://stuart-hahn.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Working With Class Based Components</title>
+      <link>https://stuart-hahn.github.io/blog/working-with-class-based-components/</link>
+      <pubDate>Thu, 08 Apr 2021 11:10:50 -0400</pubDate>
+      
+      <guid>https://stuart-hahn.github.io/blog/working-with-class-based-components/</guid>
+      <description>Note: I built a little app to demonstrate how to work with class-based components. You can view the repository here: Github Repo
+ React has evolved through the years, and as a result functional components are much more powerful than they used to be.</description>
+    </item>
+    
     <item>
       <title>React Props: A Primer</title>
       <link>https://stuart-hahn.github.io/blog/react-props-a-primer/</link>
