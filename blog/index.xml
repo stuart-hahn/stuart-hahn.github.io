@@ -7,7 +7,16 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Stuart Hahn {year}</copyright>
-    <lastBuildDate>Thu, 08 Apr 2021 11:10:50 -0400</lastBuildDate><atom:link href="https://stuart-hahn.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 13 Apr 2021 13:46:47 -0400</lastBuildDate><atom:link href="https://stuart-hahn.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Working With Forms and External Apis</title>
+      <link>https://stuart-hahn.github.io/blog/working-with-forms-and-external-apis/</link>
+      <pubDate>Tue, 13 Apr 2021 13:46:47 -0400</pubDate>
+      
+      <guid>https://stuart-hahn.github.io/blog/working-with-forms-and-external-apis/</guid>
+      <description>In most apps that you might work on you&amp;rsquo;re going to have to be able to accept inputs from users and then use those inputs to do something. This application will demonstrate how to use a controlled form to accept inputs from a user and make a fetch request to an external API.</description>
+    </item>
+    
     <item>
       <title>Working With Class Based Components</title>
       <link>https://stuart-hahn.github.io/blog/working-with-class-based-components/</link>

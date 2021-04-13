@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	
+
+	<title>Working With Forms and External Apis</title>
+
+	
+	<link rel="stylesheet" href="https://stuart-hahn.github.io/css/colors-dark.min.917d9395f6d23907a6111292c67bec46700e81ef4e3a3e3b4e6a091835f90113.css">
+
+	
+</head>
+
+<body>
+	<header id="header">
+		<h1><a href="https://stuart-hahn.github.io/">Hire Stuart</a></h1>
+		<p>What&#39;s the worst that could happen?</p>
+	</header>
+
+	<div id="page">
+		<div id="sidebar">
+			<nav>
+	
+		<ul class="nav">
+			
+				<li><a href="https://github.com/stuart-hahn/"><span>Github</span></a></li>
+			
+		</ul>
+	
+		<ul class="nav">
+			
+				<li><a href="https://twitter.com/stuarthahn"><span>Twitter</span></a></li>
+			
+				<li><a href="https://www.youtube.com/channel/UCAScs3bE-RCtJAv5B_FZQ4w"><span>YouTube</span></a></li>
+			
+		</ul>
+	
+</nav>
+
+		</div>
+
+		<div id="content">
+			
+	<article class="post">
+		<h1><a href="https://stuart-hahn.github.io/blog/working-with-forms-and-external-apis/">Working With Forms and External Apis</a> </h1>
+
+		<div class="post-content"><p>In most apps that you might work on you&rsquo;re going to have to be able to accept inputs from users and then use those inputs to <em>do something</em>. This application will demonstrate how to use a controlled form to accept inputs from a user and make a fetch request to an external API.</p>
+<blockquote>
+<p>Note: You can view the completed app <a href="https://github.com/stuart-hahn/working-with-forms-and-apis">here</a></p>
+</blockquote>
+<h2 id="making-a-controlled-form-to-handle-input-changes">Making a controlled form to handle input changes</h2>
+<p>The first thing to do when creating a form in React is to create a form element. In JSX, this is as simple as it sounds:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#586e75">// notice how it&#39;s almost exactly like an HTML form
+</span><span style="color:#586e75">// except that it uses `htmlFor` instead of `for`
+</span><span style="color:#586e75"></span>&lt;<span style="color:#268bd2">form</span>&gt;
+  &lt;<span style="color:#268bd2">label</span> htmlFor<span style="color:#719e07">=</span><span style="color:#2aa198">&#39;search&#39;</span>&gt;Search&lt;/<span style="color:#268bd2">label</span>&gt;
+  &lt;<span style="color:#268bd2">input</span> id<span style="color:#719e07">=</span><span style="color:#2aa198">&#39;search&#39;</span> type<span style="color:#719e07">=</span><span style="color:#2aa198">&#39;text&#39;</span> /&gt;
+&lt;/<span style="color:#268bd2">form</span>&gt;
+</code></pre></div><p>Then, we have to give this form functionality. In our case we&rsquo;re going to make a &ldquo;controlled form&rdquo; by assigning the form&rsquo;s input value to its component&rsquo;s <code>state</code>.</p>
+<p>In practice, it looks like this:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#586e75">// inside of the component
+</span><span style="color:#586e75">// 1. use state to hold user input information
+</span><span style="color:#586e75"></span>state <span style="color:#719e07">=</span> { inputText<span style="color:#719e07">:</span> <span style="color:#2aa198">&#39;&#39;</span> }
+
+<span style="color:#586e75">// 2. use an event listener to watch for changes
+</span><span style="color:#586e75">// to the search input
+</span><span style="color:#586e75"></span>onInputChange <span style="color:#719e07">=</span> e =&gt; <span style="color:#719e07">this</span>.setState({ inputText<span style="color:#719e07">:</span> e.target.value })
+
+render() {
+	<span style="color:#719e07">return</span> (
+		&lt;<span style="color:#268bd2">div</span>&gt;
+			&lt;<span style="color:#268bd2">form</span>&gt;
+				{<span style="color:#586e75">/* 3. use the onChange event listener to keep the form and the component&#39;s state in sync */</span>}
+				&lt;<span style="color:#268bd2">input</span> onChange<span style="color:#719e07">=</span>{<span style="color:#719e07">this</span>.onInputChange}
+					value<span style="color:#719e07">=</span>{<span style="color:#719e07">this</span>.state.inputText}
+					placeholder<span style="color:#719e07">=</span><span style="color:#2aa198">&#34;Search for images...&#34;</span>
+				/&gt;
+			&lt;/<span style="color:#268bd2">form</span>&gt;
+		&lt;/<span style="color:#268bd2">div</span>&gt;
+	)
+}
+</code></pre></div><h2 id="how-to-handle-the-form-being-submitted">How to handle the form being submitted</h2>
+<p>When someone presses enter or clicks on a submit button, they expect something to happen. In this app, we expect that the search term provided will fly off into the universe and grab related images.</p>
+<p>To make that happen, we have to make use of a couple new things:</p>
+<ol>
+<li>A new event handler to listen for form submittal and then do something with the provided term.</li>
+<li>An API call to an external database to retrieve (fetch) images related to the term.</li>
+</ol>
+<p>Let&rsquo;s tackle these challenges one at a time.</p>
+<p>First, let&rsquo;s wire up an <code>onSubmit</code> event listener. This listener will trigger a function that we&rsquo;ll eventually use to make the external API call. For now, let&rsquo;s just get it set up:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#586e75">// event listener to watch for form submittal
+</span><span style="color:#586e75"></span>onFormSubmit <span style="color:#719e07">=</span> e =&gt; {
+	e.preventDefault()
+	console.log(<span style="color:#719e07">this</span>.state.inputText)
+}
+
+...
+&lt;<span style="color:#268bd2">form</span> onSubmit<span style="color:#719e07">=</span>{<span style="color:#719e07">this</span>.onFormSubmit} /&gt;
+...
+&lt;/<span style="color:#268bd2">form</span>&gt;
+</code></pre></div><p>The above code is simply setting up the listener and calling <code>event.preventDefault()</code> to stop the form submittal from automatically causing a page refresh. Because this is a Single Page App (SPA), we don&rsquo;t need the form&rsquo;s default behavior of making a GET request and taking us to a new page.</p>
+<blockquote>
+<p>Note: <code>this</code> is a keyword in JS that can be tricky to understand or work with. I don&rsquo;t go over it in detail in this post, but keep in mind that I&rsquo;m using ES6 syntax and arrow functions to avoid context issues around the <code>this</code> keyword.</p>
+</blockquote>
+<h2 id="circumventing-reacts-unidirectional-information-flow">Circumventing React&rsquo;s Unidirectional Information Flow</h2>
+<p>In an earlier post I talked about how the <code>props</code> system in React in a one-way flow. The parent can pass information down to the child, but the child cannot pass information back up to the parent.</p>
+<p>But there are plenty of situations where the parent will need some data from the child in order to perform certain actions.</p>
+<p>Let&rsquo;s look at an example in our own app.</p>
+<p>We&rsquo;ve defined a Search form that takes input from the user, and we&rsquo;re going to use that information to make a request to an external API. We could hardcode the API request right into the <code>onFormSubmit</code> function that we built, but that would prevent us from reusing this same Search component for different tasks.</p>
+<p>The whole point of defining a Search component is to be able to reuse it in multiple places in our app, or even in other apps that we might create in the future. If we want the Search component to look for images on one page and videos on another, for example, then we&rsquo;d have to define two Search components: one for images and one for videos.</p>
+<p>A better way to tackle this problem would be to pass a callback function down from the parent component and storing it in the child&rsquo;s <code>onFormSubmit</code> function.</p>
+<p>Then, whenever the <code>onFormSubmit</code> function gets invoked, it will invoke the callback function <em>inside the parent component</em>. This is made possible due to the way that the <code>this</code> keyword works. If the function is defined in (and bound) to the parent component, then no matter where it gets called it will always be invoked on the parent component.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#586e75">// inside App.js
+</span><span style="color:#586e75"></span><span style="color:#268bd2">const</span> App <span style="color:#719e07">=</span> () =&gt; {
+  <span style="color:#268bd2">const</span> onSearchSubmit <span style="color:#719e07">=</span> term =&gt; {
+    console.log(term)
+  }
+
+  <span style="color:#719e07">return</span> (
+    &lt;<span style="color:#268bd2">div</span> className<span style="color:#719e07">=</span><span style="color:#2aa198">&#39;app ui container&#39;</span>&gt;
+      &lt;<span style="color:#268bd2">Search</span> onSubmit<span style="color:#719e07">=</span>{onSearchSubmit} /&gt;
+    &lt;/<span style="color:#268bd2">div</span>&gt;
+  )
+}
+
+<span style="color:#586e75">// inside Search.js
+</span><span style="color:#586e75"></span>onFormSubmit <span style="color:#719e07">=</span> e =&gt; {
+  e.preventDefault()
+  <span style="color:#719e07">this</span>.props.onSubmit(<span style="color:#719e07">this</span>.state.inputText)
+}
+</code></pre></div><h2 id="making-an-api-call">Making an API call</h2>
+<p>JavaScript has a built-in function called <code>fetch</code> that allows you to make AJAX (asynchronous JavaScript and XML) requests to external services and APIs. Fetch doesn&rsquo;t require any external packages to be installed, but it is a little more cumbersome to work with than some 3rd party packages.</p>
+<p>In this app, I&rsquo;m going to use a popular 3rd party package called Axios instead of the built-in <code>fetch</code> functiionality. Both options work similarly and the end result would be the same, but Axios takes care of a lot of the repetitive or cumbersome code that isn&rsquo;t built in to the fetch function.</p>
+<p>In order to use <code>axios</code>, however, we have to install it into our React app. We can do that with the following line of code run in the terminal:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">npm install --save axios
+</code></pre></div><p>Once it is installed, we can import it into our app wherever we need its functionality. In our case, we want to make a fetch request (a call to an external API) whenever our <code>onSearchSubmit</code> function gets called. Since this function lives in and gets called on our App component, we will import <code>axios</code> into the App component.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#586e75">// inside App.js
+</span><span style="color:#586e75"></span><span style="color:#268bd2">import</span> React from <span style="color:#2aa198">&#39;react&#39;</span>
+<span style="color:#268bd2">import</span> axios from <span style="color:#2aa198">&#39;axios&#39;</span>
+
+<span style="color:#268bd2">import</span> Search from <span style="color:#2aa198">&#39;./Search&#39;</span>
+
+<span style="color:#586e75">// note: 3rd party packages are typically imported
+</span><span style="color:#586e75">// above anything that we wrote ourselves
+</span></code></pre></div><p>The API that I&rsquo;ll be making use of in this app is the Unsplash API. This is an image hosting service that provides royalty free images to be used anywhere that the user likes.</p>
+<p>Working with APIs can vary substantially in complexity, but the Unsplash API is fairly straightforward. You simply need to do the following:</p>
+<ol>
+<li>Create a developer account on Unsplash</li>
+<li>Make a GET request to a specified endpoint</li>
+</ol>
+<p>The API&rsquo;s root URL is <code>https://api.unsplash.com/</code> and then we can tack on the endpoints and parameters that we want to use inside of our axios function.</p>
+<p>The endpoint that we&rsquo;re trying to hit is a <code>GET</code> request to <code>https://api.unsplash.com/search/photos</code>, here&rsquo;s exactly how to do that:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#586e75">// note: You should NOT commit authorization keys
+</span><span style="color:#586e75">// to github. Instead, use a .env file for environment variables
+</span><span style="color:#586e75"></span><span style="color:#268bd2">const</span> onSearchSubmit <span style="color:#719e07">=</span> term =&gt; {
+  axios.get(<span style="color:#2aa198">&#39;https://api.unsplash.com/search/photos&#39;</span>, {
+    headers<span style="color:#719e07">:</span> {
+      Authorization<span style="color:#719e07">:</span> <span style="color:#2aa198">&#39;Client-ID 3JEzdYMfI-Qs41VXXW8q1DO0bixTjb6EJHQOtu7x5Ys&#39;</span>
+    },
+    params<span style="color:#719e07">:</span> {
+      query<span style="color:#719e07">:</span> term
+    }
+  })
+}
+</code></pre></div><p>You can see that we&rsquo;re invoking an <code>axios.get</code> function that takes two arguments. The first argument is the endpoint that we&rsquo;re trying to make a request to, and the second argument is a congfiguration object that we can pass specific options to.</p>
+<p>Since the Unsplash API requires an authentication key, we need to provide it in the configuration object as one of the options. We can provide it as a header by passing in a <code>headers</code> object to the configuration object.</p>
+<p>The Unsplash API specifies that we need to provide a <code>query</code> param, so we&rsquo;ll stick that in the configuration object as well and set the query to equal the term provided to the <code>onSearchSubmit</code> function.</p>
+<p>If this is all set up correctly, we can now type a query into the searchbar in our app. That query will be taken by axios and sent off as a GET request to the Unsplash API.</p>
+<p>The Unsplash API will check the Authorization credentials, see that we are who we say we are, and then provide us with the results based on our query.</p>
+<h2 id="using-asyncawait-syntax">Using Async/Await Syntax</h2>
+<p>The GET request to Unsplash is an asynchronous operation, meaning that by the time the request comes back with any data our app will have already moved on and started other tasks.</p>
+<p>Whenever you make asynchronous requests in JavaScript they return something called a <code>promise</code>, which is essentially the app saying &ldquo;Hey, I&rsquo;ve started that request. I <em>promise</em> I&rsquo;ll let you know when I have that data you requested. Go ahead and keep working for now.&rdquo;</p>
+<p>And then, when the data comes back, the app goes &ldquo;Hey, I got that info you requested. What should I do with it?&rdquo;</p>
+<p>There are two ways to deal with promises:</p>
+<ol>
+<li>You can chain together <code>.then</code> statements (classic way)</li>
+<li>You can use <code>async/await</code> syntax (more modern)</li>
+</ol>
+<p>In this app, I&rsquo;m going to be using the <code>async/await</code> syntax. This syntax makes it a little easier to work with AJAX requests and the code is a little more readable than having a bunch of chained together <code>.then</code> statements.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#586e75">// inside App.js
+</span><span style="color:#586e75"></span><span style="color:#268bd2">const</span> [results, setResults] <span style="color:#719e07">=</span> useState([])
+<span style="color:#268bd2">const</span> onSearchSubmit <span style="color:#719e07">=</span> <span style="color:#268bd2">async</span> term =&gt; {
+  <span style="color:#268bd2">const</span> response <span style="color:#719e07">=</span> <span style="color:#268bd2">await</span> axios.get(<span style="color:#2aa198">&#39;https://api.unsplash.com/search/photos&#39;</span>, {
+    headers<span style="color:#719e07">:</span> {
+      Authorization<span style="color:#719e07">:</span> <span style="color:#586e75">`Client-ID </span><span style="color:#2aa198">${</span>REACT_APP_UNSPLASH_CLIENT_ID<span style="color:#2aa198">}</span><span style="color:#586e75">`</span>
+    },
+    params<span style="color:#719e07">:</span> {
+      query<span style="color:#719e07">:</span> term
+    }
+  })
+
+  setResults(response.data.results)
+}
+</code></pre></div><blockquote>
+<p>Note: In the code above I&rsquo;m using the <code>useState</code> hook. This tutorial isn&rsquo;t about hooks so I&rsquo;m not going to go into detail about them, but I&rsquo;m using hooks to keep my App a functional component. I could have converted it into a <a href="https://stuart-hahn.github.io/blog/working-with-class-based-components/">class-based component</a> and achieved the same result.</p>
+</blockquote>
+<h2 id="displaying-images-on-the-page">Displaying Images on the Page</h2>
+<p>After making an API request to Unsplash we&rsquo;ll have some data about images stored in <code>state</code>. We&rsquo;ll need to figure out how to parse through that information and display it to the page.</p>
+<p>Let&rsquo;s start by passing all the image data as a prop to an <code>ImageList</code> component. Then, inside the ImageList component, we can map through the data and display it to the page using JSX.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#586e75">// inside App.js
+</span><span style="color:#586e75"></span><span style="color:#719e07">return</span> (
+  &lt;<span style="color:#268bd2">div</span> className<span style="color:#719e07">=</span><span style="color:#2aa198">&#39;app ui container&#39;</span>&gt;
+    {<span style="color:#586e75">/* pass the arrow function as a prop */</span>}
+    &lt;<span style="color:#268bd2">Search</span> onSubmit<span style="color:#719e07">=</span>{onSearchSubmit} /&gt;
+    &lt;<span style="color:#268bd2">ImageList</span> images<span style="color:#719e07">=</span>{results} /&gt;
+  &lt;/<span style="color:#268bd2">div</span>&gt;
+)
+</code></pre></div><p>The data includes URLs for various image sizes for each image. All we have to do is take one of the URLs and use it as a <code>src</code> for an <code>&lt;img /&gt;</code> element.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#586e75">// inside ImageList.js
+</span><span style="color:#586e75">// destructuring props to avoid having to repetitively say props.images
+</span><span style="color:#586e75"></span><span style="color:#268bd2">const</span> ImageList <span style="color:#719e07">=</span> ({ images }) =&gt; {
+  console.log(images)
+  <span style="color:#268bd2">const</span> renderedImages <span style="color:#719e07">=</span> images.map(image =&gt; (
+    &lt;<span style="color:#268bd2">img</span> key<span style="color:#719e07">=</span>{image.id} src<span style="color:#719e07">=</span>{image.urls.regular} alt<span style="color:#719e07">=</span>{image.alt_description} /&gt;
+  ))
+
+  <span style="color:#719e07">return</span> &lt;<span style="color:#268bd2">div</span>&gt;{renderedImages}&lt;/<span style="color:#268bd2">div</span>&gt;
+}
+</code></pre></div><p>And it&rsquo;s as easy as that. After an image search, the results will be rendered to the page as images.</p>
+</div>
+
+		<p class="meta">Posted on <span class="postdate">13. April 2021</span></p>
+	</article>
+
+		</div>
+
+		<footer id="footer">
+			<p class="copyright">
+				
+				© Stuart Hahn 2021
+				
+			</p>
+		</footer>
+	</div>
+
+	
+</body>
+
+</html>
