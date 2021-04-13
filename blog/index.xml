@@ -34,7 +34,7 @@ For example, say you wanted to have a comment section underneath your blog posts
       <pubDate>Tue, 06 Apr 2021 19:18:45 -0400</pubDate>
       
       <guid>https://stuart-hahn.github.io/blog/jsx-a-few-notes/</guid>
-      <description>JSX is getting translated into JavaScript, but it isn&amp;rsquo;t a one-to-one transtlation. There are a few syntactical notes to be aware of.
+      <description>JSX is getting translated into JavaScript, but it isn&amp;rsquo;t a one-to-one translation. There are a few syntactical notes to be aware of.
 Inline Styling
 In HTML, inline styling is done using the &amp;ldquo;style&amp;rdquo; attribute and giving it a string of CSS.</description>
     </item>
