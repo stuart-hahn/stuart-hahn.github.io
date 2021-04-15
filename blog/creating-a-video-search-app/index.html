@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	
+
+	<title>Creating a Video Search App</title>
+
+	
+	<link rel="stylesheet" href="https://stuart-hahn.github.io/css/colors-dark.min.aaff1084fcdb9e7010340d6d9e5be5b45f9ceb6b41e26dd6b20be055a9983e5b.css">
+
+	
+</head>
+
+<body>
+	<header id="header">
+		<h1><a href="https://stuart-hahn.github.io/">Hire Stuart</a></h1>
+		<p>What&#39;s the worst that could happen?</p>
+	</header>
+
+	<div id="page">
+		<div id="sidebar">
+			<nav>
+	
+		<ul class="nav">
+			
+				<li><a href="https://github.com/stuart-hahn/"><span>Github</span></a></li>
+			
+		</ul>
+	
+		<ul class="nav">
+			
+				<li><a href="https://twitter.com/stuarthahn"><span>Twitter</span></a></li>
+			
+				<li><a href="https://www.youtube.com/channel/UCAScs3bE-RCtJAv5B_FZQ4w"><span>YouTube</span></a></li>
+			
+		</ul>
+	
+</nav>
+
+		</div>
+
+		<div id="content">
+			
+	<article class="post">
+		<h1><a href="https://stuart-hahn.github.io/blog/creating-a-video-search-app/">Creating a Video Search App</a> </h1>
+
+		<div class="post-content"><blockquote>
+<p>Before we begin: There is a working version of this app hosted <a href="https://video-search-one.vercel.app/">here</a> and you can view the complete Github Repository <a href="https://github.com/stuart-hahn/video-search">here</a>.</p>
+</blockquote>
+<p>In this post I&rsquo;m going to walkthrough how to build a simple React app that uses the YouTube API to:</p>
+<ol>
+<li>Search for videos</li>
+<li>Display a list of videos</li>
+<li>Play the selected video right in the browser (without navigating to YouTube)</li>
+</ol>
+<p>To start, generate a new app using <code>npx create-react-app youtube-search</code>.</p>
+<p>Then, cd into the directory and start the app.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#b58900">cd</span> video-search
+npm start
+</code></pre></div><h2 id="boilerplate-stuff">Boilerplate Stuff</h2>
+<p>React ships with a lot of boilerplate that I&rsquo;m not going to need or use in this particular app, so the first thing I&rsquo;m going to do is remove everything inside of the <code>/src</code> directory and replace it with boilerplate of my own.</p>
+<p>When it&rsquo;s all said and done, my <code>/src</code> directory will have an <code>index.js</code> file and an <code>App.js</code> file. The App component will be nested inside a <code>/components</code> folder that will eventually house all of the components and any CSS files that I create.</p>
+<h2 id="basic-styling">Basic Styling</h2>
+<p>The Semantic UI library is a simple way to add styling to apps. The easiest way to add it to the app is through <code>link</code> tag in the <code>index.html</code> <code>&lt;head&gt;</code> element.</p>
+<p>The <code>link</code> tag should link to the Semantic UI CSS file, hosted through a CDN like <a href="https://cdnjs.com/libraries/semantic-ui">cdnjs</a>.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#586e75">&lt;!-- inside the head of index.html --&gt;</span>
+&lt;<span style="color:#268bd2">link</span>
+  rel\=&#34;stylesheet&#34;
+  href\=&#34;https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css&#34;
+/&gt;
+</code></pre></div><h2 id="creating-a-searchbar">Creating a SearchBar</h2>
+<p>The main functionality of this app is going to be to take a user input and use that input to make a request to a 3rd party API. The simplest way to accept inputs from a user is with a form.</p>
+<p>Create a SearchBar component by first creating a file inside of <code>/components</code> called <code>SearchBar.js</code>.</p>
+<p>I want this component to be a class-based component because controlled forms require the use of <code>state</code> and in this particular app I want to avoid the use of React hooks. I&rsquo;ll cover hooks and how to use them in my next post.</p>
+<blockquote>
+<p>Note: I&rsquo;ve written an entire post about working with class-based components. It goes over what they&rsquo;re good for and why you might want (or need) to use them instead of functional components.</p>
+</blockquote>
+<h3 id="controlled-forms">Controlled Forms</h3>
+<p>Controlled forms use <code>state</code> to set the <code>value</code> of their inputs. That means I need to initialize <code>state</code> and set up an <code>onChange</code> event listener for the SearchBar&rsquo;s input.</p>
+<p>After setting up the controlled form, the entire SearchBar class looks like this:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#268bd2">class</span> SearchBar <span style="color:#268bd2">extends</span> React.Component {
+  state <span style="color:#719e07">=</span> { inputText<span style="color:#719e07">:</span> <span style="color:#2aa198">&#39;&#39;</span> }
+
+  onInputChange <span style="color:#719e07">=</span> e =&gt; <span style="color:#719e07">this</span>.setState({ inputText<span style="color:#719e07">:</span> e.target.value })
+
+  render () {
+    <span style="color:#719e07">return</span> (
+      &lt;<span style="color:#268bd2">div</span> className<span style="color:#719e07">=</span><span style="color:#2aa198">&#39;search-bar ui segment&#39;</span>&gt;
+        &lt;<span style="color:#268bd2">form</span> className<span style="color:#719e07">=</span><span style="color:#2aa198">&#39;ui form&#39;</span>&gt;
+          &lt;<span style="color:#268bd2">input</span>
+            onChange<span style="color:#719e07">=</span>{<span style="color:#719e07">this</span>.onInputChange}
+            className<span style="color:#719e07">=</span><span style="color:#2aa198">&#39;field&#39;</span>
+            type<span style="color:#719e07">=</span><span style="color:#2aa198">&#39;text&#39;</span>
+            placeholder<span style="color:#719e07">=</span><span style="color:#2aa198">&#39;Search for videos...&#39;</span>
+            value<span style="color:#719e07">=</span>{<span style="color:#719e07">this</span>.state.inputText}
+          /&gt;
+        &lt;/<span style="color:#268bd2">form</span>&gt;
+      &lt;/<span style="color:#268bd2">div</span>&gt;
+    )
+  }
+}
+</code></pre></div><p>It looks great, but submitting the form doesn&rsquo;t currently do anything. To handle form submission, I need to add another event listener to do something every time the user submits the form.</p>
+<p>The event listener is called <code>onSubmit</code> and gets placed directly on the form itself. It will execute a callback function every time that the user submits the form.</p>
+<p>Just to get it set up and working, I&rsquo;m going to create a function called <code>onFormSubmit</code> and pass it as a callback to the <code>onSubmit</code> event listener in the <code>&lt;form&gt;</code> tag.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#586e75">// the function to be called every time the form gets submitted
+</span><span style="color:#586e75"></span>onFormSubmit <span style="color:#719e07">=</span> e =&gt; {
+  e.preventDefault()
+  console.log(<span style="color:#719e07">this</span>.state.inputText)
+}
+
+<span style="color:#586e75">// the onSubmit event listener
+</span><span style="color:#586e75"></span>;&lt;<span style="color:#268bd2">form</span> onSubmit<span style="color:#719e07">=</span>{<span style="color:#719e07">this</span>.onFormSubmit}&gt;...&lt;/<span style="color:#268bd2">form</span>&gt;
+</code></pre></div><h2 id="connecting-to-the-youtube-api">Connecting to the YouTube API</h2>
+<p>Now that the controlled form is working as expected, the next step is to take the term being input by the user and use it to make an API call to YouTube.</p>
+<p>To do this, I&rsquo;m using a 3rd party package called <a href="https://github.com/axios/axios">Axios</a>.</p>
+<p>To install Axios, it&rsquo;s a simple one line command in the terminal:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">npm install axios --save
+</code></pre></div><p>This will install Axios as a dependency in my application by adding it to my <code>package.json</code> file.</p>
+<h3 id="the-google-developers-console">The Google Developer&rsquo;s Console</h3>
+<p>Working with the YouTube API isn&rsquo;t the most user-friendly thing in the world, but a little bit of Googling can point you in the right direction. A general outline of the steps I took is below:</p>
+<ol>
+<li>Navigate to the Google Developer&rsquo;s Console</li>
+<li>Click &ldquo;Create New Project&rdquo;</li>
+<li>Give it a name and wait for it to be created</li>
+<li>Click &ldquo;Enable APIs and Services&rdquo;</li>
+<li>Search for &ldquo;YouTube&rdquo; and select &ldquo;YouTube Data API V3&rdquo;</li>
+<li>Click &ldquo;Enable&rdquo;</li>
+<li>Click &ldquo;Create Credentials&rdquo;</li>
+<li>Choose &ldquo;YouTube Data API V3&rdquo; from the dropdown (What API?)</li>
+<li>Choose &ldquo;Web Browser (JavaScript)&rdquo; from the next dropdown (Where?)</li>
+<li>Select &ldquo;Public data&rdquo; (What type of data?)</li>
+<li>Copy the generated API key</li>
+</ol>
+<h3 id="using-env-to-hide-the-api-key">Using .env to hide the API key</h3>
+<p>Generally speaking, it&rsquo;s a good idea to avoid pushing credentials like API keys to Github. Luckily, React makes it really easy to put sensitive data like keys into a <code>.env</code> file and then access them as variables wherever they&rsquo;re needed.</p>
+<p>This way you can keep your keys in the <code>.env</code> file and avoid adding or committing them to GitHub by putting <code>.env</code> in your <code>.gitignore</code> file.</p>
+<p>In the <code>.env</code> file (which I created in my project&rsquo;s root directory) I added the following line:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-env" data-lang="env"><span style="color:#268bd2">REACT_APP_YOUTUBE_API_KEY</span><span style="color:#719e07">=</span>IputmyAPIkeyhere
+</code></pre></div><p>Inside a React App&rsquo;s <code>.env</code> file, the prefix <code>REACT_APP_</code> has special significance. It gives you access to that variable on the <code>process.env</code> object.</p>
+<blockquote>
+<p>Note: Keys in the <code>process.env</code> are exposed in your JavaScript. Anyone can view them by inspecting your app&rsquo;s files.</p>
+</blockquote>
+<blockquote>
+<p>Note: After changing <code>.env</code> you need to restart your development server.</p>
+</blockquote>
+<h3 id="creating-an-axios-instance">Creating an Axios Instance</h3>
+<p>Now that I have my API key in a file (that won&rsquo;t be pushed to GitHub) I can set up Axios to make a GET request with some default options.</p>
+<p>I created an <code>/apis</code> folder and added a file called <code>youtube.js</code>. Inside of that file I&rsquo;ll create an instance of Axios and export it, then I&rsquo;ll be able to use it elsewhere in my app by importing it and using its built-in functionality.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#586e75">// the entire youtube.js file, including
+</span><span style="color:#586e75">// destructuring out the API key from .env
+</span><span style="color:#586e75"></span><span style="color:#268bd2">import</span> axios from <span style="color:#2aa198">&#39;axios&#39;</span>
+
+<span style="color:#268bd2">const</span> { REACT_APP_YOUTUBE_API_KEY } <span style="color:#719e07">=</span> process.env
+
+<span style="color:#268bd2">export</span> <span style="color:#719e07">default</span> axios.create({
+  baseURL<span style="color:#719e07">:</span> <span style="color:#2aa198">&#39;https://www.googleapis.com/youtube/v3&#39;</span>,
+  params<span style="color:#719e07">:</span> {
+    part<span style="color:#719e07">:</span> <span style="color:#2aa198">&#39;snippet&#39;</span>,
+    type<span style="color:#719e07">:</span> <span style="color:#2aa198">&#39;video&#39;</span>,
+    maxResults<span style="color:#719e07">:</span> <span style="color:#2aa198">5</span>,
+    key<span style="color:#719e07">:</span> REACT_APP_YOUTUBE_API_KEY
+  }
+})
+</code></pre></div><h2 id="making-the-request">Making the Request</h2>
+<p>With the Axios instance all set up, the next thing on the list is to call it with a provided search query.</p>
+<p>Since React apps have a uni-directional flow of data (from parent to child) and I know that my App component is going to need the results of the query in order to render them to the page, I&rsquo;m going to put the API call in the App and then pass it as a prop down to the SearchBar component.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#586e75">// The entire App.js file at the moment
+</span><span style="color:#586e75"></span><span style="color:#268bd2">import</span> React from <span style="color:#2aa198">&#39;react&#39;</span>
+
+<span style="color:#268bd2">import</span> youtube from <span style="color:#2aa198">&#39;../apis/youtube&#39;</span>
+<span style="color:#268bd2">import</span> SearchBar from <span style="color:#2aa198">&#39;./SearchBar&#39;</span>
+
+<span style="color:#268bd2">class</span> App <span style="color:#268bd2">extends</span> React.Component {
+  onTermSubmit <span style="color:#719e07">=</span> <span style="color:#268bd2">async</span> term =&gt; {
+    <span style="color:#268bd2">const</span> results <span style="color:#719e07">=</span> <span style="color:#268bd2">await</span> youtube.get(<span style="color:#2aa198">&#39;/search&#39;</span>, {
+      params<span style="color:#719e07">:</span> {
+        q<span style="color:#719e07">:</span> term
+      }
+    })
+
+    console.log(results)
+  }
+
+  render () {
+    <span style="color:#719e07">return</span> (
+      &lt;<span style="color:#268bd2">div</span> className<span style="color:#719e07">=</span><span style="color:#2aa198">&#39;app ui container&#39;</span>&gt;
+        &lt;<span style="color:#268bd2">SearchBar</span> onTermSubmit<span style="color:#719e07">=</span>{<span style="color:#719e07">this</span>.onTermSubmit} /&gt;
+      &lt;/<span style="color:#268bd2">div</span>&gt;
+    )
+  }
+}
+
+<span style="color:#268bd2">export</span> <span style="color:#719e07">default</span> App
+</code></pre></div><p>The <code>onTermSubmit</code> function is defined in (and bound to, because it&rsquo;s an arrow function) the App component, but gets passed to the SearchBar component as a prop.</p>
+<p>When the SearchBar component calls the function using its <code>state</code>, the function will actually be executed in the App component.</p>
+<p>The results that get returned from the YouTube API will be available in the <code>results</code> variable after the HTTP request resolves.</p>
+<p>I&rsquo;m going to take those results and add them into my App&rsquo;s <code>state</code> so that I can dynamically update the page based on the most recent search results.</p>
+<h2 id="rendering-the-results">Rendering the Results</h2>
+<p>With the search results stored in <code>state</code>, the next step is to get them displayed on the screen. To do that, I&rsquo;m going to create two new components.</p>
+<ol>
+<li>A <code>VideoList</code> component map over the collection of results</li>
+<li>A <code>VideoItem</code> component to represent each individual result</li>
+</ol>
+<p>The VideoList component will take the <code>videos</code> being stored in App&rsquo;s state and map through them, rendering a VideoItem for each video in the collection.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#586e75">// VideoList
+</span><span style="color:#586e75"></span><span style="color:#268bd2">const</span> VideoList <span style="color:#719e07">=</span> ({ videos }) =&gt; {
+  <span style="color:#719e07">return</span> (
+    &lt;<span style="color:#268bd2">div</span> className<span style="color:#719e07">=</span><span style="color:#2aa198">&#39;ui three cards&#39;</span>&gt;
+      {videos.map(video =&gt; (
+        &lt;<span style="color:#268bd2">VideoItem</span> key<span style="color:#719e07">=</span>{video.id.videoId} video<span style="color:#719e07">=</span>{video} /&gt;
+      ))}
+    &lt;/<span style="color:#268bd2">div</span>&gt;
+  )
+}
+</code></pre></div><div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#586e75">// VideoItem
+</span><span style="color:#586e75"></span><span style="color:#268bd2">const</span> VideoItem <span style="color:#719e07">=</span> ({ video }) =&gt; {
+  <span style="color:#719e07">return</span> (
+    &lt;<span style="color:#268bd2">div</span> className<span style="color:#719e07">=</span><span style="color:#2aa198">&#39;ui card&#39;</span>&gt;
+      &lt;<span style="color:#268bd2">img</span> src<span style="color:#719e07">=</span>{video.snippet.thumbnails.high.url} alt<span style="color:#719e07">=</span>{video.snippet.title} /&gt;
+      &lt;<span style="color:#268bd2">div</span> className<span style="color:#719e07">=</span><span style="color:#2aa198">&#39;content&#39;</span>&gt;{video.snippet.title}&lt;/<span style="color:#268bd2">div</span>&gt;
+    &lt;/<span style="color:#268bd2">div</span>&gt;
+  )
+}
+</code></pre></div><p>Neither of these components need to use <code>state</code> or lifecycle methods so they can both be functional components.</p>
+<p>I also added some basic styling using the Semantic UI framework.</p>
+<h2 id="selecting-videos">Selecting Videos</h2>
+<p>The next bit of functionality to work on is the ability to click on one of the listed thumbnails to see more information about the video and have the ability to watch the video without leaving the page.</p>
+<p>To do this, I&rsquo;m going to create a new component called <code>VideoDetail</code> and pass it a &ldquo;selected&rdquo; video through props.</p>
+<p>This means that my app will need an additional bit of <code>state</code>, and that <code>state</code> will need to be updated whenever a user clicks on one of the <code>VideoItem</code> components on the page.</p>
+<p>Since React has a uni-directional flow of information (down through the hierarchical tree), that means that the function handling the selection of a particular video will need to be created in and bound to the App component, which is the closest component that is a parent (or higher) to every component that needs to receive data from it.</p>
+<p>In practice, it looks like this:</p>
+<ol>
+<li><code>App</code> can pass a function down through <code>VideoList</code></li>
+<li><code>VideoList</code> can pass that function further down to <code>VideoItem</code></li>
+<li><code>VideoItem</code> can call the function with an event listener</li>
+<li>Since the function is bound to <code>App</code>, when it gets called it will update <code>App</code>&rsquo;s <code>state</code>.</li>
+<li><code>App</code> can pass the necessary <code>state</code> down as <code>props</code> to the new component <code>VideoDetail</code></li>
+<li><code>VideoDetail</code> will use the props to render something to the page.</li>
+</ol>
+<blockquote>
+<p>Note: A lot is happening here. Remember to look at this app&rsquo;s <a href="https://github.com/stuart-hahn/video-search">Github Repo</a> to see the completed code.</p>
+</blockquote>
+<h2 id="rendering-the-selected-video">Rendering the Selected Video</h2>
+<p>The VideoDetail will only render if a video is selected.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#268bd2">const</span> VideoDetail <span style="color:#719e07">=</span> ({ video }) =&gt; {
+  <span style="color:#719e07">if</span> (<span style="color:#719e07">!</span>video) {
+    <span style="color:#719e07">return</span> &lt;<span style="color:#268bd2">div</span>&gt;Please make a search and select a video.&lt;/<span style="color:#268bd2">div</span>&gt;
+  }
+  <span style="color:#719e07">return</span> &lt;<span style="color:#268bd2">div</span>&gt;{video.snippet.title}&lt;/<span style="color:#268bd2">div</span>&gt;
+}
+</code></pre></div><p>This avoids an error about how React can&rsquo;t find information about <code>null</code> before a user selects a video.</p>
+<p>After a video is selected, however, I want to render a large video player to the screen that shows more detailed video information and gives the user the option to watch the video right from the page.</p>
+<p>This requires the use of a built-in HTML element called the Iframe. Iframes let us embed content from other sites inside our application. In this case, I want to embed a YouTube video player.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#586e75">// in VideoDetail.js
+</span><span style="color:#586e75"></span><span style="color:#268bd2">const</span> url <span style="color:#719e07">=</span> <span style="color:#586e75">`https://www.youtube.com/embed/</span><span style="color:#2aa198">${</span>video.id.videoId<span style="color:#2aa198">}</span><span style="color:#586e75">`</span>
+
+<span style="color:#586e75">// JSX to be returned
+</span><span style="color:#586e75"></span>&lt;<span style="color:#268bd2">iframe</span> title<span style="color:#719e07">=</span>{video.snippet.title} src<span style="color:#719e07">=</span>{url} /&gt;
+</code></pre></div><p>Now, when a video gets selected it will get rendered in a playable Iframe on the page. Users can search for videos, then select one and have it pop up in a playable format without having to navigate to YouTube to watch it.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>This app makes use of both class compononents and functional components to dynamically display content to the screen based on a user&rsquo;s input.</p>
+<p>It makes requests to the YouTube API to get information about videos, and it even lets users watch YouTube videos without having to leave the page.</p>
+<p>You can view the complete code <a href="https://github.com/stuart-hahn/video-search">here</a>.</p>
+<p>You can <a href="https://video-search-one.vercel.app">try it out here</a>.</p>
+</div>
+
+		<p class="meta">Posted on <span class="postdate">15. April 2021</span></p>
+	</article>
+
+		</div>
+
+		<footer id="footer">
+			<p class="copyright">
+				
+				© Stuart Hahn 2021
+				
+			</p>
+		</footer>
+	</div>
+
+	
+</body>
+
+</html>

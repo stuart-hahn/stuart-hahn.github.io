@@ -7,7 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Stuart Hahn {year}</copyright>
-    <lastBuildDate>Tue, 13 Apr 2021 13:46:47 -0400</lastBuildDate><atom:link href="https://stuart-hahn.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 15 Apr 2021 15:01:31 -0400</lastBuildDate><atom:link href="https://stuart-hahn.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Creating a Video Search App</title>
+      <link>https://stuart-hahn.github.io/blog/creating-a-video-search-app/</link>
+      <pubDate>Thu, 15 Apr 2021 15:01:31 -0400</pubDate>
+      
+      <guid>https://stuart-hahn.github.io/blog/creating-a-video-search-app/</guid>
+      <description>Before we begin: There is a working version of this app hosted here and you can view the complete Github Repository here.
+ In this post I&amp;rsquo;m going to walkthrough how to build a simple React app that uses the YouTube API to:</description>
+    </item>
+    
     <item>
       <title>Working With Forms and External Apis</title>
       <link>https://stuart-hahn.github.io/blog/working-with-forms-and-external-apis/</link>
