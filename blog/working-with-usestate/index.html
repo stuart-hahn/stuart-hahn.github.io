@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	
+
+	<title>Working With UseState</title>
+
+	
+	<link rel="stylesheet" href="https://stuart-hahn.github.io/css/colors-dark.min.aaff1084fcdb9e7010340d6d9e5be5b45f9ceb6b41e26dd6b20be055a9983e5b.css">
+
+	
+</head>
+
+<body>
+	<header id="header">
+		<h1><a href="https://stuart-hahn.github.io/">Hire Stuart</a></h1>
+		<p>What&#39;s the worst that could happen?</p>
+	</header>
+
+	<div id="page">
+		<div id="sidebar">
+			<nav>
+	
+		<ul class="nav">
+			
+				<li><a href="https://github.com/stuart-hahn/"><span>Github</span></a></li>
+			
+		</ul>
+	
+		<ul class="nav">
+			
+				<li><a href="https://twitter.com/stuarthahn"><span>Twitter</span></a></li>
+			
+				<li><a href="https://www.youtube.com/channel/UCAScs3bE-RCtJAv5B_FZQ4w"><span>YouTube</span></a></li>
+			
+		</ul>
+	
+</nav>
+
+		</div>
+
+		<div id="content">
+			
+	<article class="post">
+		<h1><a href="https://stuart-hahn.github.io/blog/working-with-usestate/">Working With UseState</a> </h1>
+
+		<div class="post-content"><h1 id="react-with-hooks">React With Hooks</h1>
+<p>What is the <code>hooks</code> system? It&rsquo;s a feature added by the React team that gives functional components the ability to use React state and lifecycle methods.</p>
+<p>There are built-in hooks like <code>useState</code> and <code>useEffect</code>, but it is also possible to create a hook of your own design.</p>
+<p>In this post, I&rsquo;m going to focus on building a small feature in a React app using the <code>useState</code> hook.</p>
+<h2 id="what-is-usestate">What is &lsquo;useState&rsquo;?</h2>
+<p>The <code>useState</code> hook is a function built in to modern React that gives us the ability to add <code>state</code> to a functional component.</p>
+<p>Instead of having to redefine every component that uses <code>state</code> as a class component, the <code>useState</code> hook gives us a way to &ldquo;use state&rdquo; in a functional component.</p>
+<h2 id="toggling-items-as-active">Toggling Items as Active</h2>
+<p>One reason you might want to use <code>state</code> in a component would be to keep track of which item in a list has been clicked.</p>
+<p>The <code>useState</code> hook is initialized like this:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#586e75">// first, you import the hook alongside React
+</span><span style="color:#586e75"></span><span style="color:#268bd2">import</span> React, { useState } from <span style="color:#2aa198">&#39;react&#39;</span>
+
+<span style="color:#586e75">// then, you call the useState function with an intial value of state
+</span><span style="color:#586e75"></span><span style="color:#268bd2">const</span> [activeIndex, setActiveIndex] <span style="color:#719e07">=</span> useState(<span style="color:#cb4b16">null</span>)
+</code></pre></div><p>The <code>useState</code> function returns an array with two items. You can destructure it as indicated in the code above.</p>
+<p>The first item is a variable (you decide on the name) to represent that piece of <code>state</code>.</p>
+<p>The second item is a function that you can call to change <code>state</code>.</p>
+<p>In my small feature, I&rsquo;m setting a piece of <code>state</code> called <code>activeIndex</code> and a function to change that piece of <code>state</code> called <code>setActiveIndex</code>.</p>
+<p>I&rsquo;m using <code>setActiveIndex</code> inside an event listener to change the <code>activeIndex</code> every time a different item gets clicked.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-jsx" data-lang="jsx"><span style="color:#586e75">// the full feature -- it sets the most recently clicked item
+</span><span style="color:#586e75">// of a list of items as &#39;active&#39;
+</span><span style="color:#586e75"></span>
+<span style="color:#268bd2">import</span> React, { useState } from <span style="color:#2aa198">&#39;react&#39;</span>
+
+<span style="color:#268bd2">const</span> Accordion <span style="color:#719e07">=</span> ({ items }) =&gt; {
+  <span style="color:#586e75">// setting up the useState hook
+</span><span style="color:#586e75"></span>  <span style="color:#268bd2">const</span> [activeIndex, setActiveIndex] <span style="color:#719e07">=</span> useState(<span style="color:#cb4b16">null</span>)
+
+  <span style="color:#586e75">// helper function
+</span><span style="color:#586e75"></span>  <span style="color:#268bd2">const</span> onTitleClick <span style="color:#719e07">=</span> index =&gt;
+    index <span style="color:#719e07">===</span> activeIndex <span style="color:#719e07">?</span> setActiveIndex(<span style="color:#cb4b16">null</span>) <span style="color:#719e07">:</span> setActiveIndex(index)
+
+  <span style="color:#268bd2">const</span> renderedItems <span style="color:#719e07">=</span> items.map((item, index) =&gt; {
+    <span style="color:#268bd2">const</span> active <span style="color:#719e07">=</span> index <span style="color:#719e07">===</span> activeIndex <span style="color:#719e07">?</span> <span style="color:#2aa198">&#39;active&#39;</span> <span style="color:#719e07">:</span> <span style="color:#2aa198">&#39;&#39;</span>
+    <span style="color:#719e07">return</span> (
+      &lt;<span style="color:#268bd2">React.Fragment</span> key<span style="color:#719e07">=</span>{item.id}&gt;
+        &lt;<span style="color:#268bd2">div</span> className<span style="color:#719e07">=</span>{<span style="color:#586e75">`title </span><span style="color:#2aa198">${</span>active<span style="color:#2aa198">}</span><span style="color:#586e75">`</span>} onClick<span style="color:#719e07">=</span>{() =&gt; onTitleClick(index)}&gt;
+          &lt;<span style="color:#268bd2">i</span> className<span style="color:#719e07">=</span><span style="color:#2aa198">&#39;dropdown icon&#39;</span> /&gt;
+          {item.header}
+        &lt;/<span style="color:#268bd2">div</span>&gt;
+        &lt;<span style="color:#268bd2">div</span> className<span style="color:#719e07">=</span>{<span style="color:#586e75">`content </span><span style="color:#2aa198">${</span>active<span style="color:#2aa198">}</span><span style="color:#586e75">`</span>}&gt;{item.content}&lt;/<span style="color:#268bd2">div</span>&gt;
+      &lt;/<span style="color:#268bd2">React.Fragment</span>&gt;
+    )
+  })
+
+  <span style="color:#719e07">return</span> &lt;<span style="color:#268bd2">div</span> className<span style="color:#719e07">=</span><span style="color:#2aa198">&#39;ui styled accordion&#39;</span>&gt;{renderedItems}&lt;/<span style="color:#268bd2">div</span>&gt;
+}
+
+<span style="color:#268bd2">export</span> <span style="color:#719e07">default</span> Accordion
+</code></pre></div><p>You can view this entire feature in this <a href="https://github.com/stuart-hahn/working-with-react-hooks">Github Repo</a> in the &lsquo;Accordion.js&rsquo; file.</p>
+</div>
+
+		<p class="meta">Posted on <span class="postdate">21. April 2021</span></p>
+	</article>
+
+		</div>
+
+		<footer id="footer">
+			<p class="copyright">
+				
+				© Stuart Hahn 2021
+				
+			</p>
+		</footer>
+	</div>
+
+	
+</body>
+
+</html>

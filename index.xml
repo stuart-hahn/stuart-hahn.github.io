@@ -7,7 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Stuart Hahn {year}</copyright>
-    <lastBuildDate>Thu, 15 Apr 2021 15:01:31 -0400</lastBuildDate><atom:link href="https://stuart-hahn.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 21 Apr 2021 11:34:25 -0400</lastBuildDate><atom:link href="https://stuart-hahn.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Working With UseState</title>
+      <link>https://stuart-hahn.github.io/blog/working-with-usestate/</link>
+      <pubDate>Wed, 21 Apr 2021 11:34:25 -0400</pubDate>
+      
+      <guid>https://stuart-hahn.github.io/blog/working-with-usestate/</guid>
+      <description>React With Hooks What is the hooks system? It&amp;rsquo;s a feature added by the React team that gives functional components the ability to use React state and lifecycle methods.
+There are built-in hooks like useState and useEffect, but it is also possible to create a hook of your own design.</description>
+    </item>
+    
     <item>
       <title>Creating a Video Search App</title>
       <link>https://stuart-hahn.github.io/blog/creating-a-video-search-app/</link>
@@ -19,7 +29,7 @@
     </item>
     
     <item>
-      <title>Working With Forms and External Apis</title>
+      <title>Working With Forms and External APIs</title>
       <link>https://stuart-hahn.github.io/blog/working-with-forms-and-external-apis/</link>
       <pubDate>Tue, 13 Apr 2021 13:46:47 -0400</pubDate>
       
