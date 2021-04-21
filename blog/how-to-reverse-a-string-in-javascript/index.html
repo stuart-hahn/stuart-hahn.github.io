@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	
+
+	<title>How to Reverse a String in Javascript</title>
+
+	
+	<link rel="stylesheet" href="https://stuart-hahn.github.io/css/colors-dark.min.aaff1084fcdb9e7010340d6d9e5be5b45f9ceb6b41e26dd6b20be055a9983e5b.css">
+
+	
+</head>
+
+<body>
+	<header id="header">
+		<h1><a href="https://stuart-hahn.github.io/">Hire Stuart</a></h1>
+		<p>What&#39;s the worst that could happen?</p>
+	</header>
+
+	<div id="page">
+		<div id="sidebar">
+			<nav>
+	
+		<ul class="nav">
+			
+				<li><a href="https://github.com/stuart-hahn/"><span>Github</span></a></li>
+			
+		</ul>
+	
+		<ul class="nav">
+			
+				<li><a href="https://twitter.com/stuarthahn"><span>Twitter</span></a></li>
+			
+				<li><a href="https://www.youtube.com/channel/UCAScs3bE-RCtJAv5B_FZQ4w"><span>YouTube</span></a></li>
+			
+		</ul>
+	
+</nav>
+
+		</div>
+
+		<div id="content">
+			
+	<article class="post">
+		<h1><a href="https://stuart-hahn.github.io/blog/how-to-reverse-a-string-in-javascript/">How to Reverse a String in Javascript</a> </h1>
+
+		<div class="post-content"><blockquote>
+<p>Note: This problem and other common coding interview questions (along with their solutions) can be found in this <a href="https://github.com/stuart-hahn/algorithms-and-data-structures">Github Repo</a></p>
+</blockquote>
+<p>Instructions: Take a string and return a new string with a reversed order of characters. For example:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">reverseString(<span style="color:#2aa198">&#39;hello&#39;</span>) <span style="color:#586e75">//=&gt; &#39;olleh&#39;
+</span></code></pre></div><h3 id="ways-to-solve-this">Ways to Solve This</h3>
+<p>This is a simple problem that can be solved using a variety of approaches.</p>
+<p>The simplest solution would be to use built-in JavaScript methods, but it&rsquo;s also simple enough to solve this even if the interviewer wants you to avoid built-in methods.</p>
+<p>These are a few of the strategies you could use:</p>
+<ol>
+<li>Use built-in JavaScript methods</li>
+<li>Use a for loop</li>
+<li>Use recursion</li>
+</ol>
+<h3 id="built-in-javascript-methods">Built-in JavaScript Methods</h3>
+<p>JavaScript has built-in methods that can handle things like turning a string into an array, reversing an an array, and turning an array into a string.</p>
+<p>Unfortunately, the <code>reverse</code> method doesn&rsquo;t work directly on strings, so it is necessary to first split the string into an array in order to reverse it with the <code>reverse</code> method.</p>
+<p>The good news is that methods can be chained together, so the full solution using JavaScript&rsquo;s built-in methods is still a simple one-liner.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#268bd2">function</span> reverseString (str) {
+  <span style="color:#719e07">return</span> str
+    .split(<span style="color:#2aa198">&#39;&#39;</span>)
+    .reverse()
+    .join(<span style="color:#2aa198">&#39;&#39;</span>)
+}
+</code></pre></div><p>Here&rsquo;s exactly what&rsquo;s happening:</p>
+<ol>
+<li>
+<p><code>str.split(&quot;&quot;)</code> is taking the <code>str</code> string and splitting it into an array. The argument passed represents what character to split the string on, and in this case I&rsquo;m passing in an empty string so that it splits on every character.</p>
+</li>
+<li>
+<p><code>.reverse()</code> gets chained on and reverses the array that was made by the <code>.split(&quot;&quot;)</code>.</p>
+</li>
+<li>
+<p><code>.join(&quot;&quot;)</code> takes that newly reversed array and joins it back into a string. The argument of an empty string is once again passed, letting the method know to join the letters together without anything between them.</p>
+</li>
+</ol>
+<h3 id="using-a-loop">Using a Loop</h3>
+<p>The built-in methods make up the simplest solution, but sometimes the interviewer might want you to tackle problems in a different way. For example, they might specifically request that you solve this problem without using <code>reverse()</code>.</p>
+<p>One way to do this is with a <code>for</code> loop.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#586e75">// 1. create a variable to store the reversed word
+</span><span style="color:#586e75"></span><span style="color:#268bd2">let</span> reversed <span style="color:#719e07">=</span> <span style="color:#2aa198">&#39;&#39;</span>
+
+<span style="color:#586e75">// create a for loop
+</span><span style="color:#586e75">// 2. initialize with a value of the length of the string minus 1
+</span><span style="color:#586e75">// 3. run while i is greater than or equal to zero
+</span><span style="color:#586e75">// 4. decrement by one on every loop
+</span><span style="color:#586e75"></span><span style="color:#719e07">for</span> (<span style="color:#268bd2">let</span> i <span style="color:#719e07">=</span> str.length <span style="color:#719e07">-</span> <span style="color:#2aa198">1</span>; i <span style="color:#719e07">&gt;=</span> <span style="color:#2aa198">0</span>; i<span style="color:#719e07">--</span>) {
+  <span style="color:#586e75">// 5. add each letter (in descending order) to the &#39;reversed&#39; variable
+</span><span style="color:#586e75"></span>  reversed <span style="color:#719e07">+=</span> str[i]
+}
+
+<span style="color:#586e75">// 6. return the &#39;reversed&#39; variable
+</span><span style="color:#586e75"></span><span style="color:#719e07">return</span> reversed
+</code></pre></div><p>Here&rsquo;s that same code without the comments (for easier reading):</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#268bd2">function</span> reverseString (str) {
+  <span style="color:#268bd2">let</span> reversed <span style="color:#719e07">=</span> <span style="color:#2aa198">&#39;&#39;</span>
+
+  <span style="color:#719e07">for</span> (<span style="color:#268bd2">let</span> i <span style="color:#719e07">=</span> str.length <span style="color:#719e07">-</span> <span style="color:#2aa198">1</span>; i <span style="color:#719e07">&gt;=</span> <span style="color:#2aa198">0</span>; i<span style="color:#719e07">--</span>) {
+    reversed <span style="color:#719e07">+=</span> str[i]
+  }
+
+  <span style="color:#719e07">return</span> reversed
+}
+</code></pre></div><p>This method really only requires you to know how to create a <code>for</code> loop. You could write it as a decrementing <code>for</code> loop like I&rsquo;ve done above, but you could also write it as an incrementing <code>for</code> loop with just a couple changes:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#268bd2">function</span> reverseString (str) {
+  <span style="color:#268bd2">let</span> reversed <span style="color:#719e07">=</span> <span style="color:#2aa198">&#39;&#39;</span>
+
+  <span style="color:#719e07">for</span> (<span style="color:#268bd2">let</span> i <span style="color:#719e07">=</span> <span style="color:#2aa198">0</span>; i <span style="color:#719e07">&lt;</span> str.length; i<span style="color:#719e07">++</span>) {
+    reversed <span style="color:#719e07">=</span> str[i] <span style="color:#719e07">+</span> reversed
+  }
+
+  <span style="color:#719e07">return</span> reversed
+}
+</code></pre></div></div>
+
+		<p class="meta">Posted on <span class="postdate">21. April 2021</span></p>
+	</article>
+
+		</div>
+
+		<footer id="footer">
+			<p class="copyright">
+				
+				© Stuart Hahn 2021
+				
+			</p>
+		</footer>
+	</div>
+
+	
+</body>
+
+</html>

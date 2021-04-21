@@ -7,7 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Stuart Hahn {year}</copyright>
-    <lastBuildDate>Wed, 21 Apr 2021 11:34:25 -0400</lastBuildDate><atom:link href="https://stuart-hahn.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 21 Apr 2021 15:28:01 -0400</lastBuildDate><atom:link href="https://stuart-hahn.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to Reverse a String in Javascript</title>
+      <link>https://stuart-hahn.github.io/blog/how-to-reverse-a-string-in-javascript/</link>
+      <pubDate>Wed, 21 Apr 2021 15:28:01 -0400</pubDate>
+      
+      <guid>https://stuart-hahn.github.io/blog/how-to-reverse-a-string-in-javascript/</guid>
+      <description>Note: This problem and other common coding interview questions (along with their solutions) can be found in this Github Repo
+ Instructions: Take a string and return a new string with a reversed order of characters.</description>
+    </item>
+    
     <item>
       <title>Working With UseState</title>
       <link>https://stuart-hahn.github.io/blog/working-with-usestate/</link>
