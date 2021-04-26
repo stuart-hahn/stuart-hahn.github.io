@@ -7,7 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Stuart Hahn {year}</copyright>
-    <lastBuildDate>Wed, 21 Apr 2021 15:28:01 -0400</lastBuildDate><atom:link href="https://stuart-hahn.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 26 Apr 2021 17:11:07 -0400</lastBuildDate><atom:link href="https://stuart-hahn.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to Check if a String Is a Palindrome in Javascript</title>
+      <link>https://stuart-hahn.github.io/blog/how-to-check-if-a-string-is-a-palindrome-in-javascript/</link>
+      <pubDate>Mon, 26 Apr 2021 17:11:07 -0400</pubDate>
+      
+      <guid>https://stuart-hahn.github.io/blog/how-to-check-if-a-string-is-a-palindrome-in-javascript/</guid>
+      <description>This problem and other common coding interview questions (along with their solutions) can be found in this Github Repo
+ Instructions: If you&amp;rsquo;re given a string, return true if the string is a palindrome and false if it isn&amp;rsquo;t.</description>
+    </item>
+    
     <item>
       <title>How to Reverse a String in Javascript</title>
       <link>https://stuart-hahn.github.io/blog/how-to-reverse-a-string-in-javascript/</link>
