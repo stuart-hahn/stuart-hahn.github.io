@@ -14,7 +14,8 @@
       <pubDate>Wed, 02 Jun 2021 13:56:00 -0400</pubDate>
       
       <guid>https://stuart-hahn.github.io/blog/the-pyramid-problem/</guid>
-      <description>The Pyramid Problem Directions Write a function that accepts a positive number n. The function should console log a pyramid shape with n levels using the # character. Make sure the pyramid has spaces on both the left and right hand sides.</description>
+      <description>The Pyramid Problem Directions
+Write a function that accepts a positive number n. The function should console log a pyramid shape with n levels using the # character. Make sure the pyramid has spaces on both the left and right hand sides.</description>
     </item>
     
     <item>
