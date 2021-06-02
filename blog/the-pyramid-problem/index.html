@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	
+
+	<title>The Pyramid Problem</title>
+
+	
+	<link rel="stylesheet" href="https://stuart-hahn.github.io/css/colors-dark.min.aaff1084fcdb9e7010340d6d9e5be5b45f9ceb6b41e26dd6b20be055a9983e5b.css">
+
+	
+</head>
+
+<body>
+	<header id="header">
+		<h1><a href="https://stuart-hahn.github.io/">Hire Stuart</a></h1>
+		<p>What&#39;s the worst that could happen?</p>
+	</header>
+
+	<div id="page">
+		<div id="sidebar">
+			<nav>
+	
+		<ul class="nav">
+			
+				<li><a href="https://github.com/stuart-hahn/"><span>Github</span></a></li>
+			
+		</ul>
+	
+		<ul class="nav">
+			
+				<li><a href="https://twitter.com/stuarthahn"><span>Twitter</span></a></li>
+			
+				<li><a href="https://www.youtube.com/channel/UCAScs3bE-RCtJAv5B_FZQ4w"><span>YouTube</span></a></li>
+			
+		</ul>
+	
+</nav>
+
+		</div>
+
+		<div id="content">
+			
+	<article class="post">
+		<h1><a href="https://stuart-hahn.github.io/blog/the-pyramid-problem/">The Pyramid Problem</a> </h1>
+
+		<div class="post-content"><h1 id="the-pyramid-problem">The Pyramid Problem</h1>
+<p><strong>Directions</strong>
+Write a function that accepts a positive number <code>n</code>. The function should console log a pyramid shape with <code>n</code> levels using the <code>#</code> character. Make sure the pyramid has spaces on both the left <em>and</em> right hand sides.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#586e75">//   pyramid(1)
+</span><span style="color:#586e75">//       &#39;#&#39;
+</span><span style="color:#586e75">//   pyramid(2)
+</span><span style="color:#586e75">//       &#39; # &#39;
+</span><span style="color:#586e75">//       &#39;###&#39;
+</span><span style="color:#586e75">//   pyramid(3)
+</span><span style="color:#586e75">//       &#39;  #  &#39;
+</span><span style="color:#586e75">//       &#39; ### &#39;
+</span><span style="color:#586e75">//       &#39;#####&#39;
+</span></code></pre></div><h2 id="solution">Solution</h2>
+<p>Each line will represent a row in the pyramid, and each row will have <code>2 * n - 1</code> total characters, which we&rsquo;ll call &lsquo;columns&rsquo;.</p>
+<p>For each row, we have to iterate through every column and determine whether or not it should be an empty space <code>' '</code> or a pound sign <code>'#'</code>.</p>
+<p>We can calculate the row&rsquo;s midpoint (it&rsquo;s the same for every row) by performing <code>Math.floor((2 * n - 1) / 2</code>.</p>
+<p>If the column is greater than or equal to the row&rsquo;s midpoint minus the row that we&rsquo;re currently working on, AND the column is less than or equal to the row&rsquo;s midpoint plus the row that we&rsquo;re currently working on, we add a <code>'#'</code> to the string. ELSE we add an empty space.</p>
+<p>Finally, print the row&rsquo;s string and then move on to the next row.</p>
+<p>In practice, the solution looks like this:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#268bd2">function</span> pyramid (n) {
+  <span style="color:#268bd2">const</span> middle <span style="color:#719e07">=</span> <span style="color:#b58900">Math</span>.floor((<span style="color:#2aa198">2</span> <span style="color:#719e07">*</span> n <span style="color:#719e07">-</span> <span style="color:#2aa198">1</span>) <span style="color:#719e07">/</span> <span style="color:#2aa198">2</span>)
+  <span style="color:#719e07">for</span> (<span style="color:#268bd2">let</span> row <span style="color:#719e07">=</span> <span style="color:#2aa198">0</span>; row <span style="color:#719e07">&lt;</span> n; row<span style="color:#719e07">++</span>) {
+    <span style="color:#268bd2">let</span> str <span style="color:#719e07">=</span> <span style="color:#2aa198">&#39;&#39;</span>
+    <span style="color:#719e07">for</span> (<span style="color:#268bd2">let</span> col <span style="color:#719e07">=</span> <span style="color:#2aa198">0</span>; col <span style="color:#719e07">&lt;</span> <span style="color:#2aa198">2</span> <span style="color:#719e07">*</span> n <span style="color:#719e07">-</span> <span style="color:#2aa198">1</span>; col<span style="color:#719e07">++</span>) {
+      <span style="color:#719e07">if</span> (col <span style="color:#719e07">&gt;=</span> middle <span style="color:#719e07">-</span> row <span style="color:#719e07">&amp;&amp;</span> col <span style="color:#719e07">&lt;=</span> middle <span style="color:#719e07">+</span> row) {
+        str <span style="color:#719e07">+=</span> <span style="color:#2aa198">&#39;#&#39;</span>
+      } <span style="color:#719e07">else</span> {
+        str <span style="color:#719e07">+=</span> <span style="color:#2aa198">&#39; &#39;</span>
+      }
+    }
+    console.log(str)
+  }
+}
+</code></pre></div></div>
+
+		<p class="meta">Posted on <span class="postdate">02. June 2021</span></p>
+	</article>
+
+		</div>
+
+		<footer id="footer">
+			<p class="copyright">
+				
+				© Stuart Hahn 2021
+				
+			</p>
+		</footer>
+	</div>
+
+	
+</body>
+
+</html>
