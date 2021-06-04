@@ -79,6 +79,64 @@
     console.log(str)
   }
 }
+</code></pre></div><h2 id="solution-with-recursion">Solution (with recursion)</h2>
+<p>Just like the &ldquo;staircase&rdquo; problem, the Pyramid can be created using recursion. To create a recursive solution, we start by deciding on the base case.</p>
+<p>Once we know the base case we can add logic.</p>
+<p><strong>What is the base case?</strong></p>
+<p>This function should stop executing when the row is equal to the provided value <code>n</code>. Our pyramid should always be exactly <code>n</code> rows tall.</p>
+<p><strong>What logic do we need?</strong></p>
+<p>We need to know when to console log each level of the pyramid. Since each level of the pyramid is going to be <code>2 * n - 1</code> character long, we know to print our string when it reaches that length.</p>
+<p>Every time we print a string, we need to call the function again with the new row.</p>
+<p>For each row, we need to decide when to add either an empty space or a pound sign.</p>
+<p>Finally, if we&rsquo;re not at the end of a row and we&rsquo;re not done with the final row then we need to call the function again, this time providing the updated string.</p>
+<p>In practice, the recursive solution looks like this:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#268bd2">function</span> pyramid (n, row <span style="color:#719e07">=</span> <span style="color:#2aa198">0</span>, str <span style="color:#719e07">=</span> <span style="color:#2aa198">&#39;&#39;</span>) {
+  <span style="color:#586e75">// calculate the midpoint of each row
+</span><span style="color:#586e75"></span>  <span style="color:#268bd2">const</span> mid <span style="color:#719e07">=</span> <span style="color:#b58900">Math</span>.floor((<span style="color:#2aa198">2</span> <span style="color:#719e07">*</span> n <span style="color:#719e07">-</span> <span style="color:#2aa198">1</span>) <span style="color:#719e07">/</span> <span style="color:#2aa198">2</span>)
+
+  <span style="color:#586e75">// base case
+</span><span style="color:#586e75"></span>  <span style="color:#719e07">if</span> (row <span style="color:#719e07">===</span> n) {
+    <span style="color:#719e07">return</span>
+  }
+
+  <span style="color:#586e75">// when to print each row and move on to the next
+</span><span style="color:#586e75"></span>  <span style="color:#719e07">if</span> (str.length <span style="color:#719e07">===</span> <span style="color:#2aa198">2</span> <span style="color:#719e07">*</span> n <span style="color:#719e07">-</span> <span style="color:#2aa198">1</span>) {
+    console.log(str)
+    <span style="color:#719e07">return</span> pyramid(n, row <span style="color:#719e07">+</span> <span style="color:#2aa198">1</span>)
+  }
+
+  <span style="color:#586e75">// logic of what to add to the string
+</span><span style="color:#586e75"></span>  <span style="color:#586e75">// this is based on the length of the string and
+</span><span style="color:#586e75"></span>  <span style="color:#586e75">// where the current character falls in relation to the midpoint
+</span><span style="color:#586e75"></span>  <span style="color:#719e07">if</span> (str.length <span style="color:#719e07">&lt;=</span> mid <span style="color:#719e07">+</span> row <span style="color:#719e07">&amp;&amp;</span> str.length <span style="color:#719e07">&gt;=</span> mid <span style="color:#719e07">-</span> row) {
+    str <span style="color:#719e07">+=</span> <span style="color:#2aa198">&#39;#&#39;</span>
+  } <span style="color:#719e07">else</span> {
+    str <span style="color:#719e07">+=</span> <span style="color:#2aa198">&#39; &#39;</span>
+  }
+
+  <span style="color:#586e75">// recursively call the function with the current row and string
+</span><span style="color:#586e75"></span>  pyramid(n, row, str)
+}
+</code></pre></div><p>Without comments:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#268bd2">function</span> pyramid (n, row <span style="color:#719e07">=</span> <span style="color:#2aa198">0</span>, str <span style="color:#719e07">=</span> <span style="color:#2aa198">&#39;&#39;</span>) {
+  <span style="color:#268bd2">const</span> mid <span style="color:#719e07">=</span> <span style="color:#b58900">Math</span>.floor((<span style="color:#2aa198">2</span> <span style="color:#719e07">*</span> n <span style="color:#719e07">-</span> <span style="color:#2aa198">1</span>) <span style="color:#719e07">/</span> <span style="color:#2aa198">2</span>)
+  <span style="color:#719e07">if</span> (row <span style="color:#719e07">===</span> n) {
+    <span style="color:#719e07">return</span>
+  }
+
+  <span style="color:#719e07">if</span> (str.length <span style="color:#719e07">===</span> <span style="color:#2aa198">2</span> <span style="color:#719e07">*</span> n <span style="color:#719e07">-</span> <span style="color:#2aa198">1</span>) {
+    console.log(str)
+    <span style="color:#719e07">return</span> pyramid(n, row <span style="color:#719e07">+</span> <span style="color:#2aa198">1</span>)
+  }
+
+  <span style="color:#719e07">if</span> (str.length <span style="color:#719e07">&lt;=</span> mid <span style="color:#719e07">+</span> row <span style="color:#719e07">&amp;&amp;</span> str.length <span style="color:#719e07">&gt;=</span> mid <span style="color:#719e07">-</span> row) {
+    str <span style="color:#719e07">+=</span> <span style="color:#2aa198">&#39;#&#39;</span>
+  } <span style="color:#719e07">else</span> {
+    str <span style="color:#719e07">+=</span> <span style="color:#2aa198">&#39; &#39;</span>
+  }
+
+  pyramid(n, row, str)
+}
 </code></pre></div><h3 id="additional-notes">Additional Notes</h3>
 <p>The Pyramid Problem is a more advanced version of the Steps problem. The solution is similar, but the Pyramid requires slightly more complex logic.</p>
 </div>
