@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	
+
+	<title>Building a Rails Api</title>
+
+	
+	<link rel="stylesheet" href="https://stuart-hahn.github.io/css/colors-dark.min.aaff1084fcdb9e7010340d6d9e5be5b45f9ceb6b41e26dd6b20be055a9983e5b.css">
+
+	
+</head>
+
+<body>
+	<header id="header">
+		<h1><a href="https://stuart-hahn.github.io/">Hire Stuart</a></h1>
+		<p>What&#39;s the worst that could happen?</p>
+	</header>
+
+	<div id="page">
+		<div id="sidebar">
+			<nav>
+	
+		<ul class="nav">
+			
+				<li><a href="https://github.com/stuart-hahn/"><span>Github</span></a></li>
+			
+		</ul>
+	
+		<ul class="nav">
+			
+				<li><a href="https://twitter.com/stuarthahn"><span>Twitter</span></a></li>
+			
+				<li><a href="https://www.youtube.com/channel/UCAScs3bE-RCtJAv5B_FZQ4w"><span>YouTube</span></a></li>
+			
+		</ul>
+	
+</nav>
+
+		</div>
+
+		<div id="content">
+			
+	<article class="post">
+		<h1><a href="https://stuart-hahn.github.io/blog/building-a-rails-api/">Building a Rails Api</a> </h1>
+
+		<div class="post-content"><p>My plan is to build a Rails API that can be hooked up to a front end like React.</p>
+<h2 id="project-idea">Project Idea</h2>
+<p>The goal is to build a flashcard app that makes use of spaced repetition. Spaced repetition and active recall are two of the most effective studying techniques and an app like this could help students study effectively.</p>
+<h3 id="user-stories">User Stories</h3>
+<p>For a minimum viable product (MVP), users should simply be able to create flashcards, assign them to a category, and then study flashcards of a particular category.</p>
+<p>Users should have full CRUD capabilities of their flash cards.</p>
+<h3 id="stretch-goals">Stretch Goals</h3>
+<p>Stretch goals include adding user authentication and creating more advanced functionality like the ability to add code snippets or images to the flash cards.</p>
+<h2 id="rails-api-set-up">Rails API Set Up</h2>
+<p>Since this is going to be an API with a separate front end, there is no need to generate a complete Rails app.</p>
+<p>Using the <code>--api</code> flag when generating the app means that unnecessary files like Views won&rsquo;t be created. This means the app will be smaller and more efficient.</p>
+<p>By default, Rails apps use SQLite3, but since I want to deploy this app after it is finished I need to use PostgresQL as my database. I can accomplish that by adding the <code>--database=postgresql</code> flag to the <code>rails new</code> command.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rails new study_smart_api --database<span style="color:#719e07">=</span>postgresql --api
+</code></pre></div><h2 id="building-vertically">Building Vertically</h2>
+<p>One trap that is easy to fall into when building out a Rails API is &ldquo;building horizontally.&rdquo; An example of horizontal building is creating multiple models at once.</p>
+<p>It might seem like a good idea to scaffold out or create all of your models at the same time, but it&rsquo;s a fast way to end up with a headache and a lot of extraneous functionality.</p>
+<p>A better idea, and a building strategy that I plan on following, is to build vertically instead.</p>
+<p>This means building one model at a time, one feature at at a time. Even though I know that I&rsquo;m going to need a User model and a Topic Model and a Flashcard model, I&rsquo;m going to build them one by one, focusing on including only the code I need and making sure that the app works before moving on to the next piece of the puzzle.</p>
+<h2 id="generating-models">Generating Models</h2>
+<p>To generate a new model in Rails you can use the following command:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rails g model Topic title description:text
+</code></pre></div><p>By default, any fields passed in without a type are added to the table as a string. In the example above, <code>title</code> is the same as <code>title:string</code>.</p>
+<p>Rails takes this model and automatically creates a migration file for it.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#719e07">class</span> <span style="color:#268bd2">CreateTopics</span> <span style="color:#719e07">&lt;</span> <span style="color:#cb4b16">ActiveRecord</span><span style="color:#719e07">::</span><span style="color:#cb4b16">Migration</span><span style="color:#719e07">[</span><span style="color:#2aa198">6</span><span style="color:#719e07">.</span><span style="color:#2aa198">0</span><span style="color:#719e07">]</span>
+  <span style="color:#719e07">def</span> <span style="color:#268bd2">change</span>
+    create_table <span style="color:#2aa198">:topics</span> <span style="color:#719e07">do</span> <span style="color:#719e07">|</span>t<span style="color:#719e07">|</span>
+      t<span style="color:#719e07">.</span>string <span style="color:#2aa198">:title</span>
+      t<span style="color:#719e07">.</span>text <span style="color:#2aa198">:description</span>
+
+      t<span style="color:#719e07">.</span>timestamps
+    <span style="color:#719e07">end</span>
+  <span style="color:#719e07">end</span>
+<span style="color:#719e07">end</span>
+</code></pre></div><h2 id="running-migrations">Running Migrations</h2>
+<p>Any time you create a new model or update a migration file, you also need to update the associated tables in your database.</p>
+<p>To do this, you can run your migrations with the following command:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rails db:migrate
+</code></pre></div><blockquote>
+<p>Note: Because we added the <code>--database=postgresql</code> flag to this Rails API, we MUST run <code>db:create</code> before trying to run any migrations.</p>
+</blockquote>
+<h2 id="seeding-the-database">Seeding the Database</h2>
+<p>In the <code>db/</code> directory you can add a seed file that will get executed with the command <code>rake db:seed</code>. This file is a good place to add some starter data to test out your models and their associations as you build them out.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#586e75"># in db/seeds.rb</span>
+
+programming <span style="color:#719e07">=</span> <span style="color:#cb4b16">Topic</span><span style="color:#719e07">.</span>create(<span style="color:#2aa198">title</span>: <span style="color:#2aa198">&#34;Programming&#34;</span>, <span style="color:#2aa198">description</span>: <span style="color:#2aa198">&#34;Fundamental programming concepts and syntax notes to learn Ruby on Rails, JavaScript, and React.&#34;</span>)
+
+farming <span style="color:#719e07">=</span> <span style="color:#cb4b16">Topic</span><span style="color:#719e07">.</span>create(<span style="color:#2aa198">title</span>: <span style="color:#2aa198">&#34;Farming&#34;</span>, <span style="color:#2aa198">description</span>: <span style="color:#2aa198">&#34;Strategies for starting and growing an urban farm.&#34;</span>)
+</code></pre></div><h2 id="routing">Routing</h2>
+<p>Since I&rsquo;m creating an API, I want to use namespacing when I create my routes. This will allow for a finer level of control over things like versioning and also make it extra clear that these routes are hitting an API endpoint.</p>
+<p>An example front end URL might look like <code>https://example.com</code> whereas a namespaced API might look like <code>https://example.com/api/v1/flashcards</code>.</p>
+<p>You can see that the second example is obviously an API and even enforces some version control. If I were to make any major updates to the API then I could namespace the new endpoint to be <code>/api/v2/flashcards</code>.</p>
+<h3 id="namespacing">Namespacing</h3>
+<p>In Rails, namespacing is really easy. Here&rsquo;s the syntax to create the URL endpoint that I described above:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#586e75"># In config/routes.rb</span>
+<span style="color:#cb4b16">Rails</span><span style="color:#719e07">.</span>application<span style="color:#719e07">.</span>routes<span style="color:#719e07">.</span>draw <span style="color:#719e07">do</span>
+  namespace <span style="color:#2aa198">:api</span> <span style="color:#719e07">do</span>
+    namespace <span style="color:#2aa198">:v1</span> <span style="color:#719e07">do</span>
+      resources <span style="color:#2aa198">:topics</span>, <span style="color:#2aa198">only</span>: <span style="color:#719e07">[</span><span style="color:#2aa198">:index</span><span style="color:#719e07">]</span>
+    <span style="color:#719e07">end</span>
+  <span style="color:#719e07">end</span>
+<span style="color:#719e07">end</span>
+</code></pre></div><p>To check that the routes that I want exist, I can run <code>rails routes</code>. This will return a list of all of my currently available routes, including <code>/api/v1/topics</code>.</p>
+<p>However, trying to start the Rails Server and navigating to that URL will currently throw an error because there is no associated controller.</p>
+<h3 id="controllers">Controllers</h3>
+<p>With the routes successfully created, it&rsquo;s time to add associated controllers and controller actions. We can use the Rails generator again:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rails g controller api/v1/Topics
+</code></pre></div><p>This command will create a new file inside <code>app/controllers/api/v1/</code> called <code>topics_controller.rb</code>.</p>
+<p>Inside this file, the TopicsController will be set up with proper namespacing, which looks like this:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#719e07">class</span> <span style="color:#268bd2">Api</span><span style="color:#719e07">::</span><span style="color:#cb4b16">V1</span><span style="color:#719e07">::</span><span style="color:#cb4b16">TopicsController</span> <span style="color:#719e07">&lt;</span> <span style="color:#cb4b16">ApplicationController</span>
+<span style="color:#719e07">end</span>
+</code></pre></div><blockquote>
+<p>Note: The <code>::</code> indicate namespacing.</p>
+</blockquote>
+<p>With the TopicsController generated, I can begin to add controller actions to handle the URL requests made to the routes that were set up earlier.</p>
+<p>At the moment, there is only the need for an <code>index</code> action, since that is the only route that has been created.</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#586e75"># in the TopicsController</span>
+<span style="color:#719e07">def</span> <span style="color:#268bd2">index</span>
+	@topics <span style="color:#719e07">=</span> <span style="color:#cb4b16">Topic</span><span style="color:#719e07">.</span>all
+	<span style="color:#586e75"># because this is an API endpoint</span>
+	<span style="color:#586e75"># we want to render JSON instead of ERB or anything else</span>
+	render <span style="color:#2aa198">json</span>: @topics
+<span style="color:#719e07">end</span>
+</code></pre></div><p>After setting up the index action, I can start the Rails Server using the command <code>rails s</code>, navigate to <code>localhost:3000/api/v1/topics</code> and see JSON that contains all of the topics stored in my database.</p>
+<h2 id="json-api-serializer">JSON API Serializer</h2>
+<p>The JSON API Serializer is a gem that makes it easier (and faster) to work with JSON responses in our Rails app. It creates serializer classes that give us full control over which attributes are returned when our API endpoints are hit.</p>
+<blockquote>
+<p>Note: The JSON API Serializer gem is forked from the Fast JSON API, which was created by the Netflix team but is no longer maintained.</p>
+</blockquote>
+<p>To install the JSON API Serializer:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#586e75"># in the Gemfile</span>
+gem <span style="color:#2aa198">&#39;jsonapi-serializer&#39;</span>
+</code></pre></div><blockquote>
+<p>Note: After updating the Gemfile, always run <code>bundle install</code> to make sure that those dependencies are updated and included in your app.</p>
+</blockquote>
+<p>To generate a serializer:</p>
+<div class="highlight"><pre style="color:#93a1a1;background-color:#002b36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rails g serializer Topic
+</code></pre></div><h2 id="next-steps">Next Steps</h2>
+<p>The barebones Rails API is up and running! But there is still a lot of work to do.</p>
+<p>I&rsquo;m going to build out a frontend using React that allows for full CRUD operations on the Topics and Flashcards that we&rsquo;ve already built.</p>
+<p>This will mainly entail adding new routes and controller actions to handle certain requests made to the API from an external source.</p>
+<p>I plan on adding Users and JWT authentication as well.</p>
+<p>Stay tuned :)</p>
+</div>
+
+		<p class="meta">Posted on <span class="postdate">24. June 2021</span></p>
+	</article>
+
+		</div>
+
+		<footer id="footer">
+			<p class="copyright">
+				
+				© Stuart Hahn 2021
+				
+			</p>
+		</footer>
+	</div>
+
+	
+</body>
+
+</html>

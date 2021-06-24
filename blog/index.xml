@@ -7,7 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Stuart Hahn {year}</copyright>
-    <lastBuildDate>Wed, 02 Jun 2021 13:56:00 -0400</lastBuildDate><atom:link href="https://stuart-hahn.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 24 Jun 2021 16:07:16 -0400</lastBuildDate><atom:link href="https://stuart-hahn.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Building a Rails Api</title>
+      <link>https://stuart-hahn.github.io/blog/building-a-rails-api/</link>
+      <pubDate>Thu, 24 Jun 2021 16:07:16 -0400</pubDate>
+      
+      <guid>https://stuart-hahn.github.io/blog/building-a-rails-api/</guid>
+      <description>My plan is to build a Rails API that can be hooked up to a front end like React.
+Project Idea The goal is to build a flashcard app that makes use of spaced repetition.</description>
+    </item>
+    
     <item>
       <title>The Pyramid Problem</title>
       <link>https://stuart-hahn.github.io/blog/the-pyramid-problem/</link>

@@ -3,10 +3,13 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://stuart-hahn.github.io/blog/</loc>
-    <lastmod>2021-06-02T13:56:00-04:00</lastmod>
+    <lastmod>2021-06-24T16:07:16-04:00</lastmod>
+  </url><url>
+    <loc>https://stuart-hahn.github.io/blog/building-a-rails-api/</loc>
+    <lastmod>2021-06-24T16:07:16-04:00</lastmod>
   </url><url>
     <loc>https://stuart-hahn.github.io/</loc>
-    <lastmod>2021-06-02T13:56:00-04:00</lastmod>
+    <lastmod>2021-06-24T16:07:16-04:00</lastmod>
   </url><url>
     <loc>https://stuart-hahn.github.io/blog/the-pyramid-problem/</loc>
     <lastmod>2021-06-02T13:56:00-04:00</lastmod>
