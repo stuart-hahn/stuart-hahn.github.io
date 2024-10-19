@@ -4,8 +4,6 @@ title: "Back to Basics"
 categories: blog
 ---
 
-# Back to Basics
-
 It's been a minute since the last time I worked with React, so today I'm revisiting the fundamentals in preparation for a big project I'm planning.
 
 ## What the heck is Vite?
