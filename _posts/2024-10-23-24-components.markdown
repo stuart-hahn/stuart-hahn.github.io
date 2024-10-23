@@ -1,0 +1,9 @@
+---
+layout: post
+title: "Components"
+categories: blog
+---
+
+Using React is all about thinking in the form of components. The page is made up of little components, and your job as a React dev is to compose those components into a sensible structure.
+
+When you begin to understand this concept, the rest of the pieces like `props` and `state` start to fall into place. It's a cool feeling.
